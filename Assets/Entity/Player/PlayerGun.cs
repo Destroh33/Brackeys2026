@@ -102,4 +102,30 @@ public class PlayerGun : MonoBehaviour
         SkipChamber();
         return data;
     }
+
+    public void SetBullets(IReadOnlyList<BulletData> bullets)
+    {
+        Debug.Assert(bullets.Count <= numChambers, "Tried to set chambers with more bullets than chambers");
+        int bulletIndex = 0;
+        for (int i = 0; i < numChambers; ++i)
+        {
+            int bulletsRemaining = bullets.Count - bulletIndex;
+            if (bulletsRemaining == 0)
+            {
+                chambers[i] = null;
+                continue;
+            }
+            int chambersRemaining = numChambers - i;
+            float probability = (float) bulletsRemaining / chambersRemaining;
+            if (Random.value <= probability)
+            {
+                chambers[i] = bullets[bulletIndex];
+                bulletIndex += 1;
+            }
+            else
+            {
+                chambers[i] = null;
+            }
+        }
+    }
 }
