@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8174306243434861597}
   - component: {fileID: 792494157076000773}
   - component: {fileID: 3521610376562449852}
+  - component: {fileID: 2871450938176104427}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -99,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d9ef796db3c6f44ab71020350aaf97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   maxSpeed: 5
   groundAccel: 90
   airAccel: 20
@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f75467510e644c47a5c59f531e479dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLook
-  inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   cameraAnchor: {fileID: 629288137214094060}
   sensitivity: 0.12
   minPitch: -89
@@ -244,6 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3618803361055336162}
+  - component: {fileID: 7503916284470325611}
   m_Layer: 0
   m_Name: ChamberPivot
   m_TagString: Untagged
@@ -797,3 +797,43 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2871450938176104427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054198235943000851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a133e8688ce472f4383dfa33cb8a449c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numChambers: 6
+  muzzle: {fileID: 4148266677287130869}
+  cameraTransform: {fileID: 4970148369142826466}
+  range: 200
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 4294966975
+  gunRecoil: {fileID: 3281479100118294181}
+  gunChamber: {fileID: 7503916284470325611}
+  playerLook: {fileID: 792494157076000773}
+  fireRate: 6
+  cameraPitchRecoil: -1.4
+  cameraYawRecoil: 0.35
+--- !u!114 &7503916284470325611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3355978195589200253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374422dc2c634d647b2408720295e3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAxis: {x: 0, y: 0, z: 1}
+  degreesPerShot: 60
+  smoothTime: 0.07

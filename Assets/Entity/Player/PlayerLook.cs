@@ -1,9 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
-    public InputActionAsset inputActions;
     public Transform cameraAnchor;
 
     public float sensitivity = 0.12f;
@@ -13,7 +11,7 @@ public class PlayerLook : MonoBehaviour
     public float recoilReturnSpeed = 15f;
     public float recoilReturnMultiplier = 3f;
 
-    private InputAction lookAction;
+    private InputSystem_Actions actions;
     private float yaw;
     private float pitch;
     private float pitchRecoil;
@@ -21,17 +19,25 @@ public class PlayerLook : MonoBehaviour
 
     private void Awake()
     {
-        var map = inputActions.FindActionMap("Player", true);
-        lookAction = map.FindAction("Look", true);
-        map.Enable();
-
+        actions = new InputSystem_Actions();
         yaw = transform.eulerAngles.y;
     }
 
     private void OnEnable()
     {
+        actions.Player.Enable();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void OnDisable()
+    {
+        actions.Player.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        actions.Dispose();
     }
 
     public void AddRecoil(float pitchAmount, float yawAmount)
@@ -42,7 +48,7 @@ public class PlayerLook : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector2 look = lookAction.ReadValue<Vector2>() * sensitivity;
+        Vector2 look = actions.Player.Look.ReadValue<Vector2>() * sensitivity;
 
         yaw += look.x;
         pitch = Mathf.Clamp(pitch - look.y, minPitch, maxPitch);

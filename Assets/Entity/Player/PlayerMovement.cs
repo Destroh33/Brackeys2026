@@ -1,12 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(CapsuleCollider))]
 public class PlayerMovement : MonoBehaviour
 {
-    public InputActionAsset inputActions;
-
     public float maxSpeed = 7f;
     public float groundAccel = 90f;
     public float airAccel = 20f;
@@ -28,8 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
     private CapsuleCollider capsule;
-    private InputAction moveAction;
-    private InputAction jumpAction;
+    private InputSystem_Actions actions;
     private Vector2 moveInput;
     private float timeSinceGrounded;
     private float timeSinceJumpPressed = Mathf.Infinity;
@@ -41,17 +35,29 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         rb.useGravity = true;
 
-        var map = inputActions.FindActionMap("Player", true);
-        moveAction = map.FindAction("Move", true);
-        jumpAction = map.FindAction("Jump", true);
-        map.Enable();
+        actions = new InputSystem_Actions();
+    }
+
+    private void OnEnable()
+    {
+        actions.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        actions.Player.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        actions.Dispose();
     }
 
     private void Update()
     {
-        moveInput = moveAction.ReadValue<Vector2>();
+        moveInput = actions.Player.Move.ReadValue<Vector2>();
 
-        if (jumpAction.WasPressedThisFrame())
+        if (actions.Player.Jump.WasPressedThisFrame())
             timeSinceJumpPressed = 0f;
         else
             timeSinceJumpPressed += Time.deltaTime;

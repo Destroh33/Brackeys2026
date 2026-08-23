@@ -665,6 +665,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2871450938176104427, guid: 71c60106240db1c429b34a122da9ed4e, type: 3}
+      propertyPath: fireRate
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4602798125065306757, guid: 71c60106240db1c429b34a122da9ed4e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -709,7 +713,12 @@ PrefabInstance:
       propertyPath: hitMask.m_Bits
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7503916284470325611, guid: 71c60106240db1c429b34a122da9ed4e, type: 3}
+      propertyPath: smoothTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6472214617578789500, guid: 71c60106240db1c429b34a122da9ed4e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
