@@ -3,7 +3,7 @@ using UnityEngine;
 public class DefaultBulletMovement : MonoBehaviour
 {
     [SerializeField] Bullet bullet;
-    [SerializeField] float speed = 10.0f;
+    [SerializeField] float speed = 30.0f;
 
     void Reset()
     {

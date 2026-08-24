@@ -4,9 +4,23 @@ public class Bullet : MonoBehaviour
 {
     public Rigidbody RB;
 
+    [SerializeField] float lifetime = 5.0f;
+
+    float expirationTime;
+
     void Reset()
     {
         TryGetComponent(out RB);
+    }
+
+    void Start()
+    {
+        expirationTime = Time.time + lifetime;
+    }
+
+    void Update()
+    {
+        if (Time.time > expirationTime) Destroy(gameObject);
     }
 
     virtual public void OnHit(EntityHealth entityHealth)
@@ -14,9 +28,9 @@ public class Bullet : MonoBehaviour
         entityHealth.Kill();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.TryGetComponent(out EntityHealth entityHealth))
+        if (collision.gameObject.TryGetComponent(out EntityHealth entityHealth))
         {
             OnHit(entityHealth);
         }

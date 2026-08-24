@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerGun : MonoBehaviour
 {
     [SerializeField]
-    int numChambers = 6;
+    int NumChambers = 6;
 
     // Circular buffer of bulletCapacity elements
     BulletData[] chambers;
@@ -34,13 +34,13 @@ public class PlayerGun : MonoBehaviour
     void Awake()
     {
         actions = new InputSystem_Actions();
-        gunChamber.degreesPerShot = 360f / numChambers;
+        gunChamber.degreesPerShot = 360f / NumChambers;
     }
 
     void Start()
     {
         // Default init to null
-        chambers = new BulletData[numChambers];
+        chambers = new BulletData[NumChambers];
     }
 
     void OnEnable()
@@ -71,11 +71,11 @@ public class PlayerGun : MonoBehaviour
         if (data != null)
         {
             SpawnBullet(data);
+            gunRecoil.Kick();
+            playerLook.AddRecoil(cameraPitchRecoil, Random.Range(-cameraYawRecoil, cameraYawRecoil));
         }
 
-        gunRecoil.Kick();
         gunChamber.Advance();
-        playerLook.AddRecoil(cameraPitchRecoil, Random.Range(-cameraYawRecoil, cameraYawRecoil));
     }
 
     void SpawnBullet(BulletData data)
@@ -92,7 +92,7 @@ public class PlayerGun : MonoBehaviour
 
     public void SkipChamber()
     {
-        chamberIndex = (chamberIndex + 1) % numChambers;
+        chamberIndex = (chamberIndex + 1) % NumChambers;
     }
 
     public BulletData PopChamber()
@@ -105,27 +105,14 @@ public class PlayerGun : MonoBehaviour
 
     public void SetBullets(IReadOnlyList<BulletData> bullets)
     {
-        Debug.Assert(bullets.Count <= numChambers, "Tried to set chambers with more bullets than chambers");
-        int bulletIndex = 0;
-        for (int i = 0; i < numChambers; ++i)
+        if (bullets.Count > NumChambers)
         {
-            int bulletsRemaining = bullets.Count - bulletIndex;
-            if (bulletsRemaining == 0)
-            {
-                chambers[i] = null;
-                continue;
-            }
-            int chambersRemaining = numChambers - i;
-            float probability = (float) bulletsRemaining / chambersRemaining;
-            if (Random.value <= probability)
-            {
-                chambers[i] = bullets[bulletIndex];
-                bulletIndex += 1;
-            }
-            else
-            {
-                chambers[i] = null;
-            }
+            throw new System.InvalidOperationException("Tried to set bullets with wrong number of bullets");
         }
+        for (int i = 0; i < NumChambers; ++i)
+        {
+            chambers[i] = i < bullets.Count ? bullets[i] : null;
+        }
+        chambers.Shuffle();
     }
 }

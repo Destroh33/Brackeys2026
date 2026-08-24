@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0d883fe8360a6d41a8450bacc6068b6, type: 3}
-  m_Name: DefaultBulletData
+  m_Name: ShotgunBulletData
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 8115726487674083211, guid: ec05e202efdfd3048809e3890f58873b, type: 3}
+  Prefab: {fileID: 981631562125347123, guid: 7a230610a8672d446970550e2d96c43c, type: 3}

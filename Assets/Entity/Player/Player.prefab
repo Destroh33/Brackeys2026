@@ -144,6 +144,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b176a3ac947f9214db8ca481a25586fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  Gun: {fileID: 2871450938176104427}
+--- !u!114 &2871450938176104427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054198235943000851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a133e8688ce472f4383dfa33cb8a449c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumChambers: 6
+  muzzle: {fileID: 4148266677287130869}
+  cameraTransform: {fileID: 4970148369142826466}
+  range: 200
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 183
+  gunRecoil: {fileID: 3281479100118294181}
+  gunChamber: {fileID: 7503916284470325611}
+  playerLook: {fileID: 792494157076000773}
+  fireRate: 6
+  cameraPitchRecoil: -1.4
+  cameraYawRecoil: 0.35
 --- !u!1 &1604271129363816218
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +293,21 @@ Transform:
   - {fileID: 2244026874372676951}
   m_Father: {fileID: 1323989020396897880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7503916284470325611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3355978195589200253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374422dc2c634d647b2408720295e3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAxis: {x: 0, y: 0, z: 1}
+  degreesPerShot: 60
+  smoothTime: 0.07
 --- !u!1 &5887801527903153275
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,43 +838,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2871450938176104427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054198235943000851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a133e8688ce472f4383dfa33cb8a449c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numChambers: 6
-  muzzle: {fileID: 4148266677287130869}
-  cameraTransform: {fileID: 4970148369142826466}
-  range: 200
-  aimMask:
-    serializedVersion: 2
-    m_Bits: 4294966975
-  gunRecoil: {fileID: 3281479100118294181}
-  gunChamber: {fileID: 7503916284470325611}
-  playerLook: {fileID: 792494157076000773}
-  fireRate: 6
-  cameraPitchRecoil: -1.4
-  cameraYawRecoil: 0.35
---- !u!114 &7503916284470325611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3355978195589200253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 374422dc2c634d647b2408720295e3bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationAxis: {x: 0, y: 0, z: 1}
-  degreesPerShot: 60
-  smoothTime: 0.07
