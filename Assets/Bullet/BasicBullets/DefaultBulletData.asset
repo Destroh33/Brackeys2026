@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d883fe8360a6d41a8450bacc6068b6, type: 3}
   m_Name: DefaultBulletData
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 981631562125347123, guid: ec05e202efdfd3048809e3890f58873b, type: 3}
+  Name: 9mm
+  Prefab: {fileID: 590936659314446910, guid: 2bac30a128c076e4eaff01176a579b56, type: 3}

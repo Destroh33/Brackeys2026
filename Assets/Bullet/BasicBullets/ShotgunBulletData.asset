@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d883fe8360a6d41a8450bacc6068b6, type: 3}
   m_Name: ShotgunBulletData
   m_EditorClassIdentifier: 
+  Name: 12ga
   Prefab: {fileID: 981631562125347123, guid: 7a230610a8672d446970550e2d96c43c, type: 3}

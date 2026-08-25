@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9622c192019ecef43ac6c3b8e7375dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunBullet
-  pelletPrefab: {fileID: 981631562125347123, guid: ec05e202efdfd3048809e3890f58873b, type: 3}
+  pelletPrefab: {fileID: 590936659314446910, guid: 2bac30a128c076e4eaff01176a579b56, type: 3}
   spreadDegrees: 10
   pelletCount: 8

@@ -9,11 +9,13 @@ public class PlayerGun : MonoBehaviour
     // Circular buffer of bulletCapacity elements
     BulletData[] chambers;
     int chamberIndex = 0;
+    public int ChamberIndex => chamberIndex;
 
     /// <summary>
     /// The bullet data in the current chamber, or null if the chamber is empty
     /// </summary>
     public BulletData Chamber => chambers[chamberIndex];
+    public IReadOnlyList<BulletData> Chambers => chambers;
 
     public Transform muzzle;
     public Transform cameraTransform;

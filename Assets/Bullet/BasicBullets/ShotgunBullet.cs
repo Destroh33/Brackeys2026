@@ -13,5 +13,6 @@ public class ShotgunBullet : MonoBehaviour
             var dir = Util.GetRandomDirectionInCone(spreadDegrees * Mathf.Deg2Rad);
             Instantiate(pelletPrefab, transform.position, transform.rotation * Quaternion.LookRotation(dir));
         }
+        Destroy(gameObject);
     }
 }
