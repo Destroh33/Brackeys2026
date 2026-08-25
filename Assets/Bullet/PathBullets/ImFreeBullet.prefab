@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 205161688665437328, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 205161688665437328, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 205161688665437328, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 205161688665437328, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -48,10 +60,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 205161688665437328, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 981631562125347123, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
       propertyPath: m_Name
       value: ImFreeBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 3162601241127245310, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c1d66449b43d8e24ea7c99eead967321, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -81,9 +101,9 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 1
-  speed: 30
-  freeDuration: 4
-  lifetime: 4
+  speed: 15
+  freeDuration: 5
+  lifetime: 5
   minSegmentDuration: 0.6
   maxSegmentDuration: 1.4
   minTurnSpeed: 220

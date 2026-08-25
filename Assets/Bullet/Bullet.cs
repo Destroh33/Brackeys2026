@@ -16,7 +16,8 @@ public class Bullet : MonoBehaviour
 
     virtual protected void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent(out EntityHealth entityHealth))
+        var entityHealth = collision.gameObject.GetComponentInParent<EntityHealth>();
+        if (entityHealth)
         {
             OnHit(entityHealth);
         }
