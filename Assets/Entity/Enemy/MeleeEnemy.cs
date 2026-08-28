@@ -4,12 +4,15 @@ public class MeleeEnemy : Enemy
 {
     enum State { Idle, Chase, WindUp, Lunge, Recover }
 
+    [SerializeField] EnemyBat weapon;
+
     [SerializeField] float lungeRange = 3.5f;
     [SerializeField] float windUpDuration = 0.4f;
     [SerializeField] float lungeSpeed = 14f;
     [SerializeField] float lungeDuration = 0.25f;
     [SerializeField] float recoverDuration = 0.6f;
     [SerializeField] float hitRadius = 1.5f;
+    [SerializeField] float stopDistance = 1.3f;
 
     State state = State.Idle;
     Vector3 lungeDirection;
@@ -31,6 +34,15 @@ public class MeleeEnemy : Enemy
     {
         state = next;
         EnterState();
+
+        if (!weapon) return;
+
+        switch (next)
+        {
+            case State.WindUp: weapon.WindUp(windUpDuration); break;
+            case State.Lunge: weapon.Swing(lungeDuration); break;
+            case State.Recover: weapon.Recover(recoverDuration); break;
+        }
     }
 
     void TickIdle()
@@ -71,7 +83,10 @@ public class MeleeEnemy : Enemy
     void TickLunge()
     {
         FaceDirection(lungeDirection);
-        if (Agent.isOnNavMesh) Agent.Move(lungeDirection * lungeSpeed * Time.deltaTime);
+        if (Agent.isOnNavMesh && (!HasTarget || DistanceToTarget > stopDistance))
+        {
+            Agent.Move(lungeDirection * lungeSpeed * Time.deltaTime);
+        }
 
         TryHitTarget();
 

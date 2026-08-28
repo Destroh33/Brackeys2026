@@ -6,6 +6,7 @@ public class RangedEnemy : Enemy
 
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform muzzle;
+    [SerializeField] EnemyGun gun;
 
     [SerializeField] float attackRange = 20f;
     [SerializeField] float aimDuration = 0.7f;
@@ -85,6 +86,8 @@ public class RangedEnemy : Enemy
 
         GameObject bullet = Instantiate(bulletPrefab, origin, Quaternion.LookRotation(direction));
         IgnoreOwnColliders(bullet);
+
+        if (gun) gun.Fire();
     }
 
     void IgnoreOwnColliders(GameObject bullet)
