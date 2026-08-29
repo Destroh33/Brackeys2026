@@ -23,6 +23,7 @@ public class RunManager : MonoBehaviour
     DeathScreen deathScreen;
     Player player;
     PlayerDeath playerDeath;
+    LevelSegment[] segments;
     bool dying;
     float deathElapsed;
 
@@ -71,6 +72,8 @@ public class RunManager : MonoBehaviour
 
         player.Health.DeathEvent.AddListener(OnPlayerDied);
 
+        segments = FindObjectsByType<LevelSegment>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
         if (startCheckpoint) Activate(startCheckpoint);
     }
 
@@ -93,7 +96,18 @@ public class RunManager : MonoBehaviour
         if (Active && checkpoint.Order <= Active.Order) return;
 
         Active = checkpoint;
+        EngageSegment();
         LoadRounds();
+    }
+
+    void EngageSegment()
+    {
+        if (segments == null) return;
+
+        foreach (var segment in segments)
+        {
+            if (segment) segment.SetEngaged(Active && segment == Active.Segment);
+        }
     }
 
     public void Restart()
@@ -104,6 +118,7 @@ public class RunManager : MonoBehaviour
         ClearTransients();
 
         if (Active && Active.Segment) Active.Segment.Respawn();
+        EngageSegment();
 
         if (player)
         {

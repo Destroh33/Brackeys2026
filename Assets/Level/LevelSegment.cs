@@ -22,10 +22,37 @@ public class LevelSegment : MonoBehaviour
 
     public event System.Action Respawned;
 
+    bool engaged;
+    public bool Engaged => engaged;
+
     void Awake()
     {
         if (!enemyRoot) enemyRoot = transform;
         Capture();
+        ApplyEngagement();
+    }
+
+    public void SetEngaged(bool value)
+    {
+        engaged = value;
+        ApplyEngagement();
+    }
+
+    void ApplyEngagement()
+    {
+        foreach (var enemy in live)
+        {
+            if (!enemy) continue;
+
+            foreach (var health in enemy.GetComponentsInChildren<EntityHealth>(true))
+            {
+                health.Invulnerable = !engaged;
+            }
+            foreach (var brain in enemy.GetComponentsInChildren<Enemy>(true))
+            {
+                brain.enabled = engaged;
+            }
+        }
     }
 
     void Capture()
@@ -71,6 +98,7 @@ public class LevelSegment : MonoBehaviour
             live.Add(enemy);
         }
 
+        ApplyEngagement();
         Respawned?.Invoke();
     }
 
