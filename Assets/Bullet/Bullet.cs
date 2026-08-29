@@ -9,6 +9,11 @@ public class Bullet : MonoBehaviour
         TryGetComponent(out RB);
     }
 
+    public static bool IsBullet(Collision collision)
+    {
+        return collision.gameObject.GetComponentInParent<Bullet>() != null;
+    }
+
     virtual public void OnHit(EntityHealth entityHealth)
     {
         entityHealth.Kill();
@@ -16,6 +21,8 @@ public class Bullet : MonoBehaviour
 
     virtual protected void OnCollisionEnter(Collision collision)
     {
+        if (IsBullet(collision)) return;
+
         var entityHealth = collision.gameObject.GetComponentInParent<EntityHealth>();
         if (entityHealth)
         {

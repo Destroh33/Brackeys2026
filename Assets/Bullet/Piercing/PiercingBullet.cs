@@ -78,6 +78,8 @@ public class PiercingBullet : Bullet
 
     protected override void OnCollisionEnter(Collision collision)
     {
+        if (IsBullet(collision)) return;
+
         var contact = collision.GetContact(0);
         Spawn(impactEffect, contact.point, contact.normal);
         Despawn();

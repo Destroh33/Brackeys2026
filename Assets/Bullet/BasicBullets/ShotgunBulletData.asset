@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 12ga
   Prefab: {fileID: 981631562125347123, guid: 7a230610a8672d446970550e2d96c43c, type: 3}
+  Category: 1
+  Rarity: 1.5

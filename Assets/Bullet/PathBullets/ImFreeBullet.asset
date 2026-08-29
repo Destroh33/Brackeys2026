@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: im free
   Prefab: {fileID: 1938783925490846814, guid: 5e2d8c1a94b74f3e9d0a6b3c7f18e2d4, type: 3}
+  Category: 2
+  Rarity: 1.5

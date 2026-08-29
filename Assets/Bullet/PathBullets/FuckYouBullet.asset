@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: middle finger
   Prefab: {fileID: 1938783925490846815, guid: 1f4ec3bf4c5e9814eabe4dc4a643dfb7, type: 3}
+  Category: 2
+  Rarity: 1

@@ -8,6 +8,12 @@ public class DefaultBulletMovement : MonoBehaviour
 
     float startFixedTime;
 
+    public void SetSpeed(float value)
+    {
+        speed = value;
+        if (bullet && bullet.RB) bullet.RB.linearVelocity = speed * transform.forward;
+    }
+
     void Reset()
     {
         TryGetComponent(out bullet);

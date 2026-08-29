@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Nuke
   Prefab: {fileID: 5572826621513719452, guid: 8562a418b1cfbe2479fa3a1d829d380f, type: 3}
+  Category: 1
+  Rarity: 4

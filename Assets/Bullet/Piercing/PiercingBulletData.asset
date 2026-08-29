@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Piercing
   Prefab: {fileID: 5291005711554167929, guid: b214b84de58ca5042a167a4e0b7fca7b, type: 3}
+  Category: 1
+  Rarity: 1

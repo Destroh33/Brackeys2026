@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: laser
   Prefab: {fileID: 5370961394904087764, guid: e1df647dc6a321f42a0539c66d7b6212, type: 3}
+  Category: 1
+  Rarity: 2.5

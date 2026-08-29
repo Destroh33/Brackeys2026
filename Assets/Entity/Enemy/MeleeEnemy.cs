@@ -7,8 +7,8 @@ public class MeleeEnemy : Enemy
     [SerializeField] EnemyBat weapon;
 
     [SerializeField] float lungeRange = 3.5f;
-    [SerializeField] float windUpDuration = 0.4f;
-    [SerializeField] float lungeSpeed = 14f;
+    [SerializeField] float windUpDuration = 0.55f;
+    [SerializeField] float lungeSpeed = 10f;
     [SerializeField] float lungeDuration = 0.25f;
     [SerializeField] float recoverDuration = 0.6f;
     [SerializeField] float hitRadius = 1.5f;

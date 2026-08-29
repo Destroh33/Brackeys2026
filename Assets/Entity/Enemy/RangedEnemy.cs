@@ -9,9 +9,10 @@ public class RangedEnemy : Enemy
     [SerializeField] EnemyGun gun;
 
     [SerializeField] float attackRange = 20f;
-    [SerializeField] float aimDuration = 0.7f;
+    [SerializeField] float aimDuration = 0.9f;
     [SerializeField] float recoverDuration = 0.8f;
     [SerializeField] float spreadDegrees = 1.5f;
+    [SerializeField] float bulletSpeed = 16f;
 
     State state = State.Idle;
     Collider[] ownColliders;
@@ -86,6 +87,11 @@ public class RangedEnemy : Enemy
 
         GameObject bullet = Instantiate(bulletPrefab, origin, Quaternion.LookRotation(direction));
         IgnoreOwnColliders(bullet);
+
+        if (bulletSpeed > 0f && bullet.TryGetComponent(out DefaultBulletMovement movement))
+        {
+            movement.SetSpeed(bulletSpeed);
+        }
 
         if (gun) gun.Fire();
     }

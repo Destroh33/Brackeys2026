@@ -40,6 +40,8 @@ public class NukeBullet : Bullet
 
     protected override void OnCollisionEnter(Collision collision)
     {
+        if (IsBullet(collision)) return;
+
         var contact = collision.GetContact(0);
         Detonate(contact.point + contact.normal * 0.2f, contact.normal);
     }

@@ -17,6 +17,19 @@ public class PlayerGun : MonoBehaviour
     public BulletData Chamber => chambers[chamberIndex];
     public IReadOnlyList<BulletData> Chambers => chambers;
 
+    public int LiveRounds
+    {
+        get
+        {
+            int count = 0;
+            foreach (var chamber in chambers)
+            {
+                if (chamber != null) ++count;
+            }
+            return count;
+        }
+    }
+
     public Transform muzzle;
     public Transform cameraTransform;
     public float range = 200f;
@@ -30,19 +43,26 @@ public class PlayerGun : MonoBehaviour
     public float cameraPitchRecoil = -1.4f;
     public float cameraYawRecoil = 0.35f;
 
+    [SerializeField] bool ejectOnSkip = true;
+    [SerializeField] float skipRate = 8f;
+    [SerializeField] Vector3 skipRecoilKick = new(0f, 0.004f, -0.012f);
+
     InputSystem_Actions actions;
     float nextFireTime;
+    float nextSkipTime;
+    Collider[] ownColliders;
+
+    public bool InputLocked { get; set; }
+
+    public static System.Action Fired;
+    public static System.Action Skipped;
 
     void Awake()
     {
         actions = new InputSystem_Actions();
         gunChamber.degreesPerShot = 360f / NumChambers;
-    }
-
-    void Start()
-    {
-        // Default init to null
         chambers = new BulletData[NumChambers];
+        ownColliders = GetComponentsInParent<Collider>();
     }
 
     void OnEnable()
@@ -62,12 +82,16 @@ public class PlayerGun : MonoBehaviour
 
     void Update()
     {
+        if (InputLocked) return;
+
         if (actions.Player.Attack.WasPressedThisFrame() && Time.time >= nextFireTime) Shoot();
+        else if (actions.Player.Skip.WasPressedThisFrame() && Time.time >= nextSkipTime) Skip();
     }
 
     void Shoot()
     {
         nextFireTime = Time.time + 1f / fireRate;
+        nextSkipTime = nextFireTime;
 
         BulletData data = PopChamber();
         if (data != null)
@@ -78,6 +102,23 @@ public class PlayerGun : MonoBehaviour
         }
 
         gunChamber.Advance();
+        Fired?.Invoke();
+    }
+
+    void Skip()
+    {
+        nextSkipTime = Time.time + 1f / skipRate;
+
+        if (ejectOnSkip) chambers[chamberIndex] = null;
+        SkipChamber();
+
+        var kick = gunRecoil.positionKick;
+        gunRecoil.positionKick = skipRecoilKick;
+        gunRecoil.Kick();
+        gunRecoil.positionKick = kick;
+
+        gunChamber.Advance();
+        Skipped?.Invoke();
     }
 
     void SpawnBullet(BulletData data)
@@ -89,7 +130,13 @@ public class PlayerGun : MonoBehaviour
         }
 
         Vector3 direction = (aimPoint - muzzle.position).normalized;
-        Instantiate(data.Prefab, muzzle.position, Quaternion.LookRotation(direction));
+        var bullet = Instantiate(data.Prefab, muzzle.position, Quaternion.LookRotation(direction));
+        IgnoreOwnColliders(bullet);
+    }
+
+    void IgnoreOwnColliders(GameObject bullet)
+    {
+        bullet.AddComponent<BulletOwnerIgnore>().Apply(transform, ownColliders);
     }
 
     public void SkipChamber()
@@ -115,6 +162,6 @@ public class PlayerGun : MonoBehaviour
         {
             chambers[i] = i < bullets.Count ? bullets[i] : null;
         }
-        chambers.Shuffle();
+        chamberIndex = 0;
     }
 }

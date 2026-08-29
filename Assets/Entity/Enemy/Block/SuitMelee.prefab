@@ -2663,8 +2663,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 2.6
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -2735,8 +2735,8 @@ MonoBehaviour:
     m_Bits: 375
   weapon: {fileID: 7648402959653779165}
   lungeRange: 3.5
-  windUpDuration: 0.4
-  lungeSpeed: 14
+  windUpDuration: 0.55
+  lungeSpeed: 10
   lungeDuration: 0.25
   recoverDuration: 0.6
   hitRadius: 1.5

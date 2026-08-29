@@ -110,7 +110,7 @@ MonoBehaviour:
   coyoteTime: 0.12
   jumpBufferTime: 0.15
   groundCheckDistance: 0.15
-  maxStepHeight: 0.35
+  maxStepHeight: 0.55
   groundMask:
     serializedVersion: 2
     m_Bits: 183

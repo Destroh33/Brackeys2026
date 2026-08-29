@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Poison Gas
   Prefab: {fileID: 6738938745730867871, guid: 75e6e3a7db3da0d4b8d1bc2f35ffe4b2, type: 3}
+  Category: 0
+  Rarity: 3

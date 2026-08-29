@@ -40,6 +40,14 @@ public class PlayerLook : MonoBehaviour
         actions.Dispose();
     }
 
+    public void SetYaw(float value)
+    {
+        yaw = value;
+        pitchRecoil = 0f;
+        yawRecoil = 0f;
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+    }
+
     public void AddRecoil(float pitchAmount, float yawAmount)
     {
         pitchRecoil += pitchAmount;

@@ -67,4 +67,24 @@ public static class Util
             (values[i], values[j]) = (values[j], values[i]);
         }
     }
+
+    public static void Shuffle<T>(this IList<T> values, System.Random random)
+    {
+        for (int i = values.Count - 1; i > 0; --i)
+        {
+            int j = random.Next(i + 1);
+            (values[i], values[j]) = (values[j], values[i]);
+        }
+    }
+
+    public static int CombineSeed(int seed, int index)
+    {
+        unchecked
+        {
+            int hash = seed * 73856093;
+            hash ^= (index + 1) * 19349663;
+            hash ^= hash >> 13;
+            return hash * 83492791;
+        }
+    }
 }

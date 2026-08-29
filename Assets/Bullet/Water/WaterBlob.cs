@@ -47,6 +47,8 @@ public class WaterBlob : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (Bullet.IsBullet(collision)) return;
+
         var contact = collision.GetContact(0);
         if (splashEffect)
         {

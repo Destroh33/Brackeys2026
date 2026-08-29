@@ -27,6 +27,8 @@ public class PoisonGasBullet : Bullet
 
     protected override void OnCollisionEnter(Collision collision)
     {
+        if (IsBullet(collision)) return;
+
         var contact = collision.GetContact(0);
         Burst(contact.point + contact.normal * 0.3f);
     }

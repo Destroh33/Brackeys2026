@@ -319,8 +319,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 2.6
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -354,6 +354,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 981631562125347123, guid: ec05e202efdfd3048809e3890f58873b, type: 3}
   muzzle: {fileID: 4734972002312076590}
   attackRange: 20
-  aimDuration: 0.7
+  aimDuration: 0.9
   recoverDuration: 0.8
   spreadDegrees: 1.5

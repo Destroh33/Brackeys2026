@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Bang
   Prefab: {fileID: 577565705357098604, guid: 468f9ccc772a4e840997c67f6d72e454, type: 3}
+  Category: 0
+  Rarity: 2

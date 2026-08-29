@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Water Gun
   Prefab: {fileID: 1087668119550302158, guid: c07458322ce7c4b4fbb481f216fe7c82, type: 3}
+  Category: 0
+  Rarity: 2

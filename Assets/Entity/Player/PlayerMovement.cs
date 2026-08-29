@@ -13,7 +13,12 @@ public class PlayerMovement : MonoBehaviour
     public float jumpBufferTime = 0.15f;
     public float groundCheckDistance = 0.15f;
 
-    public float maxStepHeight = 0.35f;
+    public float maxStepHeight = 0.55f;
+    public float minStepHeight = 0.04f;
+    public float stepProbeDistance = 0.22f;
+    public float stepSkin = 0.03f;
+    public float stepCoyoteTime = 0.2f;
+    [Range(0f, 1f)] public float walkableNormal = 0.7f;
     public LayerMask groundMask = ~0;
 
     public Transform lookTransform;
@@ -124,27 +129,109 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyStepUp()
     {
-        if (!IsGrounded || moveInput == Vector2.zero) return;
+        if (!IsGrounded && timeSinceGrounded > stepCoyoteTime) return;
 
-        Vector3 moveDir = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (moveDir.sqrMagnitude < 0.01f) return;
-        moveDir.Normalize();
+        Vector3 wish = WishDirection();
+        if (wish == Vector3.zero) return;
 
-        Vector3 bottom = transform.TransformPoint(capsule.center) + Vector3.down * (capsule.height * 0.5f - 0.02f);
-        Vector3 lowOrigin = bottom + Vector3.up * 0.05f;
-        Vector3 highOrigin = bottom + Vector3.up * maxStepHeight;
-        float probe = capsule.radius + 0.15f;
+        if (!IsBlocked(wish)) return;
 
-        bool blockedLow = Physics.Raycast(lowOrigin, moveDir, probe, groundMask, QueryTriggerInteraction.Ignore);
-        bool blockedHigh = Physics.Raycast(highOrigin, moveDir, probe, groundMask, QueryTriggerInteraction.Ignore);
-        if (!blockedLow || blockedHigh) return;
+        float rise = FindStep(wish);
+        if (rise <= minStepHeight) return;
 
-        Vector3 topOrigin = highOrigin + moveDir * probe;
-        if (!Physics.Raycast(topOrigin, Vector3.down, out RaycastHit stepHit, maxStepHeight, groundMask, QueryTriggerInteraction.Ignore)) return;
-        if (Vector3.Dot(stepHit.normal, Vector3.up) < 0.7f) return;
+        Vector3 target = rb.position + Vector3.up * (rise + stepSkin);
+        if (!Fits(target)) return;
 
-        rb.MovePosition(rb.position + Vector3.up * (maxStepHeight - stepHit.distance));
+        rb.position = target;
+        transform.position = target;
+
+        Vector3 velocity = rb.linearVelocity;
+        if (velocity.y < 0f) velocity.y = 0f;
+        rb.linearVelocity = velocity;
     }
+
+    private Vector3 WishDirection()
+    {
+        Vector3 forward = lookTransform != null ? lookTransform.forward : transform.forward;
+        Vector3 right = lookTransform != null ? lookTransform.right : transform.right;
+
+        Vector3 wish = forward * moveInput.y + right * moveInput.x;
+        wish.y = 0f;
+
+        if (wish.sqrMagnitude > 0.0001f) return wish.normalized;
+
+        Vector3 velocity = new(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        return velocity.sqrMagnitude > 0.04f ? velocity.normalized : Vector3.zero;
+    }
+
+    private bool IsBlocked(Vector3 wish)
+    {
+        Vector3 foot = FootSphere(rb.position);
+        float radius = capsule.radius * 0.95f;
+
+        if (!Physics.SphereCast(foot, radius, wish, out RaycastHit hit, stepProbeDistance, StepMask, QueryTriggerInteraction.Ignore))
+        {
+            return false;
+        }
+        return Vector3.Dot(hit.normal, Vector3.up) < walkableNormal;
+    }
+
+    private float FindStep(Vector3 wish)
+    {
+        const int samples = 3;
+
+        Vector3 side = Vector3.Cross(Vector3.up, wish);
+        Vector3 foot = FootSphere(rb.position);
+        float footY = FootHeight();
+        float best = 0f;
+
+        for (int lane = -1; lane <= 1; ++lane)
+        {
+            Vector3 lateral = side * (lane * capsule.radius * 0.55f);
+
+            for (int sample = 0; sample < samples; ++sample)
+            {
+                float forward = capsule.radius + Mathf.Lerp(0.04f, stepProbeDistance, sample / (samples - 1f));
+                Vector3 origin = foot + lateral + wish * forward;
+                origin.y = footY + maxStepHeight + stepSkin;
+
+                if (!Physics.Raycast(origin, Vector3.down, out RaycastHit hit, maxStepHeight + stepSkin, StepMask, QueryTriggerInteraction.Ignore)) continue;
+                if (Vector3.Dot(hit.normal, Vector3.up) < walkableNormal) continue;
+
+                float rise = hit.point.y - footY;
+                if (rise > minStepHeight) best = Mathf.Max(best, rise);
+                break;
+            }
+        }
+
+        return Mathf.Min(best, maxStepHeight);
+    }
+
+    private float FootHeight()
+    {
+        return rb.position.y + transform.TransformVector(capsule.center).y - capsule.height * 0.5f;
+    }
+
+    private bool Fits(Vector3 bodyPosition)
+    {
+        Vector3 center = bodyPosition + transform.TransformVector(capsule.center);
+        float half = Mathf.Max(0f, capsule.height * 0.5f - capsule.radius);
+
+        return !Physics.CheckCapsule(
+            center + Vector3.down * half,
+            center + Vector3.up * half,
+            capsule.radius * 0.95f,
+            StepMask,
+            QueryTriggerInteraction.Ignore);
+    }
+
+    private Vector3 FootSphere(Vector3 bodyPosition)
+    {
+        Vector3 center = bodyPosition + transform.TransformVector(capsule.center);
+        return center + Vector3.down * (capsule.height * 0.5f - capsule.radius);
+    }
+
+    private int StepMask => groundMask & ~(1 << gameObject.layer);
 
     private void ApplyFriction(float dt)
     {

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 9mm
   Prefab: {fileID: 590936659314446910, guid: 2bac30a128c076e4eaff01176a579b56, type: 3}
+  Category: 0
+  Rarity: 1
