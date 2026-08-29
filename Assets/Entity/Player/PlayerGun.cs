@@ -131,6 +131,12 @@ public class PlayerGun : MonoBehaviour
 
         Vector3 direction = (aimPoint - muzzle.position).normalized;
         var bullet = Instantiate(data.Prefab, muzzle.position, Quaternion.LookRotation(direction));
+
+        if (data.BulletSfx)
+        {
+            AudioSource.PlayClipAtPoint(data.BulletSfx, muzzle.position);
+        }
+
         IgnoreOwnColliders(bullet);
     }
 
