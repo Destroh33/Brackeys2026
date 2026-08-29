@@ -459,6 +459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 275344544152854629}
+  - component: {fileID: 6621729046991466767}
   m_Layer: 0
   m_Name: cartprop
   m_TagString: Untagged
@@ -491,6 +492,27 @@ Transform:
   - {fileID: 6640045216802935814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6621729046991466767
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426124345776708793}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.43, y: 2.5849826, z: 1.88}
+  m_Center: {x: 0, y: 0.7924913, z: 0}
 --- !u!1 &5787536944306093879
 GameObject:
   m_ObjectHideFlags: 0
