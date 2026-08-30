@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7100000000000000005, guid: 3c8e6a29d4b05f7c9e1a2b3d4f5c6e7b, type: 3}
       propertyPath: lifetime
-      value: 0.1
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7100000000000000005, guid: 3c8e6a29d4b05f7c9e1a2b3d4f5c6e7b, type: 3}
       propertyPath: popupPrefab
