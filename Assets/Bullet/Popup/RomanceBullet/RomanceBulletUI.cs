@@ -16,12 +16,12 @@ public class RomanceBulletUI : MonoBehaviour
     [SerializeField] GameObject choiceZeroBullet;
     [SerializeField] GameObject choiceOneBullet;
 
-    Transform muzzle;
+    PlayerGun gun;
     Coroutine swap;
 
     void Start()
     {
-        muzzle = GameManager.Instance.Player.Gun.muzzle;
+        gun = GameManager.Instance.Player.Gun;
         MusicManager.Push(this, Sfx.MusicRomance);
         Show(firstDisplay, true);
         Show(secondDisplay, false);
@@ -61,7 +61,7 @@ public class RomanceBulletUI : MonoBehaviour
             1 => choiceOneBullet,
             _ => null,
         };
-        if (prefab) Instantiate(prefab, muzzle.position, muzzle.rotation);
+        gun.SpawnAimedBullet(prefab);
     }
 
     static void Show(GameObject display, bool visible)

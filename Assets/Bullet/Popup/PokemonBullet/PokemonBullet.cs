@@ -5,13 +5,13 @@ public class PokemonBullet : MonoBehaviour
 {
     [SerializeField] List<GameObject> bulletPrefabs;
 
-    Transform muzzle;
+    PlayerGun gun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         MusicManager.Push(this, Sfx.MusicPika);
-        muzzle = GameManager.Instance.Player.GetComponent<PlayerGun>().muzzle;
+        gun = GameManager.Instance.Player.Gun;
     }
 
     void OnDestroy()
@@ -32,6 +32,6 @@ public class PokemonBullet : MonoBehaviour
             return;
         }
 
-        Instantiate(bulletPrefabs[type], muzzle.position, muzzle.rotation);
+        gun.SpawnAimedBullet(bulletPrefabs[type]);
     }
 }

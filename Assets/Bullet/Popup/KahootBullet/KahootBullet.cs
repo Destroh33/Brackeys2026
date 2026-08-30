@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class KahootBullet : MonoBehaviour
 {
-    Transform muzzle;
+    PlayerGun gun;
 
     [SerializeField] private TMP_Text[] answerLabels = new TMP_Text[4];
 
@@ -26,7 +26,7 @@ public class KahootBullet : MonoBehaviour
     void Start()
     {
         MusicManager.Push(this, Sfx.MusicKahoot);
-        muzzle = GameManager.Instance.Player.GetComponent<PlayerGun>().muzzle;
+        gun = GameManager.Instance.Player.Gun;
         popup = GetComponent<KeyPromptPopup>();
         RandomizeAnswers();
         DisplayAnswers();
@@ -132,10 +132,10 @@ public class KahootBullet : MonoBehaviour
 
     public void ShootBullet()
     {
-        Instantiate(defaultBullet, muzzle.position, muzzle.rotation);
+        gun.SpawnAimedBullet(defaultBullet);
     }
     public void ShootBangBullet()
     {
-        Instantiate(bangBullet, muzzle.position, muzzle.rotation);
+        gun.SpawnAimedBullet(bangBullet);
     }
 }

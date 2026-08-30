@@ -20,7 +20,7 @@ public class FFBulletUI : MonoBehaviour
 
     int[] choices;
     int promptIndex;
-    Transform muzzle;
+    PlayerGun gun;
 
     public int PromptIndex => promptIndex;
 
@@ -33,7 +33,7 @@ public class FFBulletUI : MonoBehaviour
     void Start()
     {
         MusicManager.Push(this, Sfx.MusicFF);
-        muzzle = GameManager.Instance.Player.Gun.muzzle;
+        gun = GameManager.Instance.Player.Gun;
         ShowCurrentPrompt();
     }
 
@@ -57,8 +57,7 @@ public class FFBulletUI : MonoBehaviour
             var bullets = prompts[i].Bullets;
             if (choice < 0 || choice >= bullets.Count) continue;
 
-            var prefab = bullets[choice];
-            if (prefab) Instantiate(prefab, muzzle.position, muzzle.rotation);
+            gun.SpawnAimedBullet(bullets[choice]);
         }
     }
 

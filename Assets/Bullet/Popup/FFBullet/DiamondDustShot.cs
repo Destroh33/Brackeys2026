@@ -7,12 +7,12 @@ public class DiamondDustShot : MonoBehaviour
     [SerializeField] float shotInterval = 0.2f;
     [SerializeField] float dispersionfactor = 0.2f;
     [SerializeField] GameObject projectile;
-    Transform muzzle;
+    PlayerGun gun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        muzzle = GameManager.Instance.Player.GetComponent<PlayerGun>().muzzle;
+        gun = GameManager.Instance.Player.Gun;
         StartCoroutine(DiamondDust());
     }
 
@@ -20,8 +20,8 @@ public class DiamondDustShot : MonoBehaviour
     {
         for (int i = 0; i < shotCount; ++i)
         {
-            GameObject proj = Instantiate(projectile, muzzle.position, muzzle.rotation);
-            proj.transform.Rotate(Random.insideUnitSphere * Random.Range(0, dispersionfactor));
+            GameObject proj = gun.SpawnAimedBullet(projectile);
+            if (proj) proj.transform.Rotate(Random.insideUnitSphere * Random.Range(0, dispersionfactor));
             AudioManager.PlayEventOn(SfxEvent.DiamondDust, transform);
             yield return new WaitForSeconds(shotInterval);
         }

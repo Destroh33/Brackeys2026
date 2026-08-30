@@ -124,16 +124,34 @@ public class PlayerGun : MonoBehaviour
         Skipped?.Invoke();
     }
 
+    public Vector3 AimDirection
+    {
+        get
+        {
+            Vector3 aimPoint = cameraTransform.position + cameraTransform.forward * range;
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit, range, aimMask, QueryTriggerInteraction.Ignore))
+            {
+                aimPoint = hit.point;
+            }
+
+            return (aimPoint - muzzle.position).normalized;
+        }
+    }
+
+    public Quaternion AimRotation => Quaternion.LookRotation(AimDirection);
+
+    public GameObject SpawnAimedBullet(GameObject prefab)
+    {
+        if (!prefab) return null;
+
+        var bullet = Instantiate(prefab, muzzle.position, AimRotation);
+        IgnoreOwnColliders(bullet);
+        return bullet;
+    }
+
     void SpawnBullet(BulletData data)
     {
-        Vector3 aimPoint = cameraTransform.position + cameraTransform.forward * range;
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit, range, aimMask, QueryTriggerInteraction.Ignore))
-        {
-            aimPoint = hit.point;
-        }
-
-        Vector3 direction = (aimPoint - muzzle.position).normalized;
-        var bullet = Instantiate(data.Prefab, muzzle.position, Quaternion.LookRotation(direction));
+        var bullet = Instantiate(data.Prefab, muzzle.position, AimRotation);
 
         AudioManager.PlayEventAt(SfxEvent.Fire, muzzle.position);
 
