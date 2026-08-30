@@ -316,5 +316,11 @@ public class RunManager : MonoBehaviour
 
         if (hud) hud.name = "Game Hud";
         deathScreen = hud ? hud.Death : null;
+
+        if (!FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include))
+        {
+            var runUi = Resources.Load<GameObject>("RunUi");
+            if (runUi) Instantiate(runUi).name = "Run Ui";
+        }
     }
 }

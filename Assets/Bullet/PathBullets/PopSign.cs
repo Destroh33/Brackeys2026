@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PopSign : MonoBehaviour
 {
     [SerializeField] Transform popRoot;
+    [SerializeField] SpriteRenderer art;
+    [SerializeField] List<Sprite> sprites = new();
 
     [SerializeField] float popDuration = 0.12f;
     [SerializeField] AnimationCurve popCurve = new(new Keyframe(0f, 0f), new Keyframe(0.55f, 1.3f), new Keyframe(1f, 1f));
@@ -31,6 +34,8 @@ public class PopSign : MonoBehaviour
 
     void Start()
     {
+        PickSprite();
+
         startTime = Time.time;
 
         if (popRoot)
@@ -57,6 +62,15 @@ public class PopSign : MonoBehaviour
 
         popRoot.localScale = baseScale * Scale(elapsed);
         Face(elapsed);
+    }
+
+    void PickSprite()
+    {
+        if (!art && popRoot) art = popRoot.GetComponentInChildren<SpriteRenderer>(true);
+        if (!art || sprites == null || sprites.Count == 0) return;
+
+        var pick = sprites[Random.Range(0, sprites.Count)];
+        if (pick) art.sprite = pick;
     }
 
     float Scale(float elapsed)

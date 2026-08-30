@@ -138,6 +138,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PopSign
   popRoot: {fileID: 8908794285511401084}
+  art: {fileID: 0}
+  sprites:
+  - {fileID: 21300000, guid: eb913981a8cd0af44b6b3738597a8366, type: 3}
+  - {fileID: 21300000, guid: 08f561c1e59bd6d4f8cab581a3b5022f, type: 3}
+  - {fileID: 21300000, guid: f794fb22f8922634d9c650a7591b7b5b, type: 3}
+  - {fileID: 21300000, guid: 1eeecf8596f08394fa12adcab07b6743, type: 3}
+  - {fileID: 21300000, guid: 4ae7e6b297494034a83ddcd3896f50cd, type: 3}
+  - {fileID: 21300000, guid: e71461b6765e52c40a22c0b6423fdba6, type: 3}
+  - {fileID: 21300000, guid: 48c52d405ca60a5458e986f9646ac73b, type: 3}
   popDuration: 0.12
   popCurve:
     serializedVersion: 2

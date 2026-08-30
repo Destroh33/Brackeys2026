@@ -65,6 +65,40 @@ public class AudioManager : MonoBehaviour
     readonly List<Scheduled> scheduled = new();
     AudioListener ownListener;
 
+    const string SfxKey = "vol_sfx";
+    const string MusicKey = "vol_music";
+
+    static float sfxScale = -1f;
+    static float musicScale = -1f;
+
+    public static float SfxVolume
+    {
+        get
+        {
+            if (sfxScale < 0f) sfxScale = PlayerPrefs.GetFloat(SfxKey, 1f);
+            return sfxScale;
+        }
+        set
+        {
+            sfxScale = Mathf.Clamp01(value);
+            PlayerPrefs.SetFloat(SfxKey, sfxScale);
+        }
+    }
+
+    public static float MusicVolume
+    {
+        get
+        {
+            if (musicScale < 0f) musicScale = PlayerPrefs.GetFloat(MusicKey, 1f);
+            return musicScale;
+        }
+        set
+        {
+            musicScale = Mathf.Clamp01(value);
+            PlayerPrefs.SetFloat(MusicKey, musicScale);
+        }
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Bootstrap()
     {
@@ -463,7 +497,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    float BusGain(AudioBus bus) => config.Master * config.Volume(bus) * ducks[bus].Level;
+    float BusGain(AudioBus bus)
+    {
+        float user = bus == AudioBus.Music ? MusicVolume : SfxVolume;
+        return config.Master * config.Volume(bus) * ducks[bus].Level * user;
+    }
 
     int Live(string cue) => livePerCue.TryGetValue(cue, out int count) ? count : 0;
 
