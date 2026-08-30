@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0d883fe8360a6d41a8450bacc6068b6, type: 3}
-  m_Name: PokemonBullet
+  m_Name: RomancePopupBullet
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
-  Name: Pokemon
-  Prefab: {fileID: 6873060547752933545, guid: b1db4d7366718294f9290c80976eac38, type: 3}
+  Name: Romance
+  Prefab: {fileID: 861406446770834061, guid: 22cd0f6914a64994cbc11ced38d4908e, type: 3}
   BulletSfx: {fileID: 0}
   ReportCue: 
   ReportFollowsBullet: 0
