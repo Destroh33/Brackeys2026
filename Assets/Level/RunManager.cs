@@ -13,6 +13,8 @@ public class RunManager : MonoBehaviour
     [SerializeField] int fixedSeed;
     [SerializeField] bool useFixedSeed;
     [SerializeField] float minimumDeathHold = 1.4f;
+    [SerializeField] float winConfirmDelay = 0.35f;
+    [SerializeField] float winHazardTimeout = 4f;
     [SerializeField] bool logLoadout = true;
     [SerializeField] bool loadEndScene = true;
     [SerializeField] float endSceneDelay = 1.2f;
@@ -39,6 +41,10 @@ public class RunManager : MonoBehaviour
     LevelSegment[] segments;
     bool dying;
     float deathElapsed;
+    float clearedFor = -1f;
+    float clearedTime;
+
+    bool PlayerDead => player && player.Health && player.Health.Dead;
 
     void Awake()
     {
@@ -123,6 +129,8 @@ public class RunManager : MonoBehaviour
 
         if (dying)
         {
+            if (RunComplete) return;
+
             deathElapsed += Time.unscaledDeltaTime;
             bool ready = deathElapsed >= minimumDeathHold && (!deathScreen || deathScreen.FadedOut);
             if (ready) Restart();
@@ -138,17 +146,40 @@ public class RunManager : MonoBehaviour
 
         RunTime += Time.deltaTime;
 
-        int remaining = EnemiesRemaining();
-        if (remaining > 0)
+        if (dying || PlayerDead)
+        {
+            clearedFor = -1f;
+            return;
+        }
+
+        if (EnemiesRemaining() > 0)
         {
             sawEnemies = true;
+            clearedFor = -1f;
             return;
         }
 
         if (!sawEnemies) return;
 
+        if (clearedFor < 0f)
+        {
+            clearedFor = 0f;
+            clearedTime = RunTime;
+        }
+
+        clearedFor += Time.unscaledDeltaTime;
+        if (clearedFor < winConfirmDelay) return;
+        if (clearedFor < winHazardTimeout && Transients.HazardsLive()) return;
+
+        Complete();
+    }
+
+    void Complete()
+    {
+        RunTime = clearedTime;
         RunComplete = true;
         RunActive = false;
+        clearedFor = -1f;
 
         RunResult.Record(RunTime, Deaths, SeedText, Seeded);
         RunFinished?.Invoke(RunTime, Deaths);
@@ -206,8 +237,9 @@ public class RunManager : MonoBehaviour
     {
         dying = false;
         deathElapsed = 0f;
+        clearedFor = -1f;
 
-        ClearTransients();
+        Transients.Clear();
 
         if (Active && Active.Segment) Active.Segment.Respawn();
         EngageSegment();
@@ -230,6 +262,8 @@ public class RunManager : MonoBehaviour
         ++Deaths;
         dying = true;
         deathElapsed = 0f;
+
+        Transients.Clear();
 
         if (playerDeath) playerDeath.Play();
         if (deathScreen) deathScreen.PlayDeath();
@@ -287,22 +321,6 @@ public class RunManager : MonoBehaviour
 
         var look = player.GetComponentInChildren<PlayerLook>(true);
         if (look) look.SetYaw(Active.SpawnRotation.eulerAngles.y);
-    }
-
-    static void ClearTransients()
-    {
-        DestroyAll<Bullet>();
-        DestroyAll<BlockPiece>();
-        DestroyAll<SelfDestruct>();
-        DestroyAll<PoisonGasCloud>();
-    }
-
-    static void DestroyAll<T>() where T : Component
-    {
-        foreach (var component in FindObjectsByType<T>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
-        {
-            if (component) Destroy(component.gameObject);
-        }
     }
 
     void EnsureHud()

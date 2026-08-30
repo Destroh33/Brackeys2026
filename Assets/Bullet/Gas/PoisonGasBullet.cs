@@ -44,7 +44,7 @@ public class PoisonGasBullet : Bullet
         {
             hiss.transform.SetParent(null, true);
             hiss.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            Destroy(hiss.gameObject, 2.0f);
+            SelfDestruct.After(hiss.gameObject, 2.0f);
         }
         Destroy(gameObject);
     }

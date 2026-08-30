@@ -75,7 +75,7 @@ public class PlatformBullet : Bullet
         }
 
         var platform = Instantiate(prefab, position, PlatformRotation(up));
-        if (platformLifetime > 0.0f) Destroy(platform, platformLifetime);
+        if (platformLifetime > 0.0f) SelfDestruct.After(platform, platformLifetime);
     }
 
     bool Cast(Vector3 origin, Vector3 direction, out RaycastHit hit)
