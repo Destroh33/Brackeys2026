@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123da70801d5d684e9e9948a5564baf0, type: 3}
   m_Name: AudioConfig
   m_EditorClassIdentifier: Assembly-CSharp::AudioConfig
-  Master: 1
-  World: 0.8
-  Weapon: 1
-  Enemy: 0.9
-  Player: 0.9
-  Ui: 0.7
-  Music: 0.6
+  Master: 0.8
+  World: 0.6
+  Weapon: 0.8
+  Enemy: 0.6
+  Player: 0.6
+  Ui: 0.5
+  Music: 0.2
+  VoiceLine: 1
   Voices: 48
   VoicesPerCue: 4
   PitchJitter: 0.06
