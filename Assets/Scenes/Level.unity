@@ -13169,7 +13169,7 @@ MonoBehaviour:
   order: 0
   spawnPoint: {fileID: 1109883864}
   segment: {fileID: 858536246}
-  loadout: {fileID: 11400000, guid: b1d3cadc179a1ec449467271ea5261b4, type: 2}
+  loadout: {fileID: 11400000, guid: aa04a43f5d1c33d4eafd957c77d6133d, type: 2}
 --- !u!4 &363568489
 Transform:
   m_ObjectHideFlags: 0
