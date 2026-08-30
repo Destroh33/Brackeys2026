@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Debug Pool
   m_EditorClassIdentifier: Assembly-CSharp::BulletPool
   Bullets:
-  - {fileID: 11400000, guid: 2dbeae9a73a831f4fb0e466a3b246313, type: 2}
+  - {fileID: 11400000, guid: 89edee7f1d10499e8685c974e8a25726, type: 2}

@@ -99,7 +99,7 @@ MonoBehaviour:
   spinner: {fileID: 7200000000000000002}
   popupPrefab: {fileID: 6100000000000000001, guid: 2b7d5f18c3a94e6b8d0f1a2c3e4b5d6a, type: 3}
   speed: 26
-  lifetime: 5
+  lifetime: 0
   spinSpeed: 220
   popOnLifetimeEnd: 1
 --- !u!1 &7200000000000000001
