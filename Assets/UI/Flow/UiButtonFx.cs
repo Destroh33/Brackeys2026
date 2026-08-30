@@ -53,7 +53,7 @@ public class UiButtonFx : MonoBehaviour,
         if (!Interactable) return;
 
         target = hoverScale;
-        AudioManager.PlayEvent(SfxEvent.UiHover);
+        AudioManager.PlayEvent(SfxEvent.UiHover, AudioBus.Ui);
     }
 
     public void OnPointerExit(PointerEventData e) => target = 1f;
@@ -70,6 +70,6 @@ public class UiButtonFx : MonoBehaviour,
 
         target = hoverScale;
         punch = 1f;
-        AudioManager.PlayEvent(useStartSound ? SfxEvent.UiStart : SfxEvent.UiClick);
+        AudioManager.PlayEvent(useStartSound ? SfxEvent.UiStart : SfxEvent.UiClick, AudioBus.Ui);
     }
 }

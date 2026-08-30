@@ -55,7 +55,7 @@ public class LeaderboardPanel : MonoBehaviour
 
         SetStatus(null);
         Build(entries);
-        AudioManager.PlayEvent(SfxEvent.UiScreen);
+        AudioManager.PlayEvent(SfxEvent.UiScreen, AudioBus.Ui);
     }
 
     void Build(List<LeaderboardService.Entry> entries)

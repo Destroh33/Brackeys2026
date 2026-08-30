@@ -75,7 +75,7 @@ public class LeaderboardRow : MonoBehaviour
         if (Entry == null || string.IsNullOrEmpty(Entry.seed)) return;
 
         Clipboard.Copy(Entry.seed);
-        AudioManager.PlayEvent(SfxEvent.UiCopy);
+        AudioManager.PlayEvent(SfxEvent.UiCopy, AudioBus.Ui);
 
         if (feedback != null) StopCoroutine(feedback);
         feedback = StartCoroutine(ShowCopied());
