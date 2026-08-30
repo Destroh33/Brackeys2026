@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CheckpointLoadout
   Pool: {fileID: 11400000, guid: 97fcea6925866294c88017814ea95e52, type: 2}
   Good: 0
-  Neutral: 0
+  Neutral: 6
   Bad: 6
   Shuffle: 1
