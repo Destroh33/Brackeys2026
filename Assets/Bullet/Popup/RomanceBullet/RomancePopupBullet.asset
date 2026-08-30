@@ -17,5 +17,5 @@ MonoBehaviour:
   BulletSfx: {fileID: 0}
   ReportCue: 
   ReportFollowsBullet: 0
-  Category: 0
+  Category: 2
   Rarity: 1.5
