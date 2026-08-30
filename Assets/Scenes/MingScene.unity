@@ -1627,6 +1627,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c40bd18ff8afff047a85b3b9d3078d75, type: 3}
+--- !u!1001 &4931906895693094159
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2280635312400755031, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_Name
+      value: DiamonDustProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.09282
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.136
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8131972037714580490, guid: b809fc02999dfb34897329d9138c1926, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b809fc02999dfb34897329d9138c1926, type: 3}
 --- !u!1001 &5020347468302244049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1798,6 +1855,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e86e93f8e6b28f4f91b6973b2dc980b, type: 3}
+--- !u!1001 &8657385621573865361
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1232298449644492821, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: shotCount
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232298449644492821, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: dispersionfactor
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398359210167451305, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_Name
+      value: DiamondDustSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458372893689958955, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 417e2048fa4a6614eb1927b0a3832228, type: 3}
 --- !u!1001 &8818538755022082526
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1883,3 +2005,5 @@ SceneRoots:
   - {fileID: 8818538755022082526}
   - {fileID: 613355672}
   - {fileID: 4400731162788664370}
+  - {fileID: 8657385621573865361}
+  - {fileID: 4931906895693094159}

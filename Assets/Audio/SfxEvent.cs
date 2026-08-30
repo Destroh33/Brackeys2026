@@ -80,6 +80,11 @@ public static class SfxEvent
         L(Sfx.NukeWhistle, 0f, 0.55f, Wide),
     };
 
+    public static readonly SfxLayer[] DiamondDust =
+    {
+        L(Sfx.FirePiercing, 0f, 0.1f, Light),
+    };
+
     public static readonly SfxLayer[] NukeLaunch =
     {
         L(Sfx.NukeLaunch, 0f, 1f, None),

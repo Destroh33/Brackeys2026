@@ -28,6 +28,9 @@ public static class Sfx
     public const string Scratch = "bullet_scratch";
     public const string Whoosh = "bullet_whoosh";
     public const string WhooshReverse = "bullet_whoosh_reverse";
+    public const string FFVoiceline1 = "ff_voiceline_1";
+    public const string FFVoiceline2 = "ff_voiceline_2";
+    public const string FFVoiceline3 = "ff_voiceline_3";
 
     public const string EnemyAlert = "enemy_alert";
     public const string EnemyWindUp = "enemy_windup";
