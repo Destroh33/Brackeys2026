@@ -274,6 +274,7 @@ MonoBehaviour:
   - voiceClip: {fileID: 8300000, guid: efe58586ba8e8df4f974c3525d11b481, type: 3}
     voiceText: The axe forgets, but the tree remembers.
   playerTransform: {fileID: 4602798125065306757, guid: 71c60106240db1c429b34a122da9ed4e, type: 3}
+  aphorismUI: {fileID: 2623252725492706387, guid: b4ec960c15a6e7041985673bc3fd22d4, type: 3}
 --- !u!114 &8434330929449684102 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8115726487674083211, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
