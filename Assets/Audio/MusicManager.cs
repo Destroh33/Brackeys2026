@@ -5,6 +5,7 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance { get; private set; }
+    public static bool Silenced;
 
     [SerializeField] string bgmCue = Sfx.MusicBgm;
     [SerializeField, Range(0f, 1f)] float bgmVolume = 0.55f;
@@ -47,7 +48,8 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        bgm = AudioManager.Loop(bgmCue, null, bgmVolume, 0f);
+        if (Silenced) bgmLevel = 0f;
+        bgm = AudioManager.Loop(bgmCue, null, bgmLevel * bgmVolume, 0f);
     }
 
     public static void Push(Object owner, string cue)
@@ -77,7 +79,7 @@ public class MusicManager : MonoBehaviour
         if (wanted != takeoverCue) Swap(wanted);
 
         float step = Time.unscaledDeltaTime / Mathf.Max(0.01f, fadeDuration);
-        bgmLevel = Mathf.MoveTowards(bgmLevel, wanted == null ? 1f : 0f, step);
+        bgmLevel = Mathf.MoveTowards(bgmLevel, Silenced || wanted != null ? 0f : 1f, step);
         takeoverLevel = Mathf.MoveTowards(takeoverLevel, wanted == null ? 0f : 1f, step);
 
         if (!AudioManager.Playing(bgm)) bgm = AudioManager.Loop(bgmCue, null, 0f, 0f);

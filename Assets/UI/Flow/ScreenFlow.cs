@@ -2,6 +2,7 @@ using UnityEngine.SceneManagement;
 
 public static class ScreenFlow
 {
+    public const string Opening = "OpeningCutscene";
     public const string Title = "Title";
     public const string Options = "Options";
     public const string Level = "Level";
@@ -12,6 +13,7 @@ public static class ScreenFlow
 
     public static void Go(string scene) => SceneManager.LoadScene(scene);
 
+    public static void GoOpening() => Go(Opening);
     public static void GoTitle() => Go(Title);
     public static void GoOptions() => Go(Options);
     public static void GoLevel() => Go(Level);
