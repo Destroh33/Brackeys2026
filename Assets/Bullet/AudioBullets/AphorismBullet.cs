@@ -21,7 +21,9 @@ public class AphorismBullet : MonoBehaviour
             AudioHandle voiceHandle = AudioManager.PlayClip(
                 aphorism.voiceClip,
                 playerTransform.position,
-                AudioBus.VoiceLine
+                AudioBus.VoiceLine,
+                1f,
+                false
             );
 
             MusicManager.PlayAphorism(voiceHandle);

@@ -11,6 +11,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float bgmVolume = 0.55f;
     [SerializeField, Range(0f, 1f)] float takeoverVolume = 0.85f;
     [SerializeField] float fadeDuration = 0.9f;
+    [SerializeField, Range(0f, 1f)] float aphorismMusicDuck = 0.35f;
+    [SerializeField, Range(0f, 1f)] float aphorismSfxDuck = 0.4f;
 
     readonly List<Object> owners = new();
     readonly List<string> cues = new();
@@ -139,6 +141,11 @@ public class MusicManager : MonoBehaviour
 
         while (AudioManager.Playing(voiceHandle))
         {
+            AudioManager.DuckBus(AudioBus.Music, aphorismMusicDuck, 0.2f, 0.6f);
+            AudioManager.DuckBus(AudioBus.World, aphorismSfxDuck, 0.2f, 0.6f);
+            AudioManager.DuckBus(AudioBus.Weapon, aphorismSfxDuck, 0.2f, 0.6f);
+            AudioManager.DuckBus(AudioBus.Enemy, aphorismSfxDuck, 0.2f, 0.6f);
+            AudioManager.DuckBus(AudioBus.Player, aphorismSfxDuck, 0.2f, 0.6f);
             yield return null;
         }
 

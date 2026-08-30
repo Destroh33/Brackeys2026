@@ -51,7 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) Toggle();
+        if (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame) Toggle();
 
         if (!panel) return;
 

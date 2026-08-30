@@ -205,9 +205,9 @@ public class AudioManager : MonoBehaviour
         return Instance ? Instance.Spawn(cue, null, position, true, volume, true) : AudioHandle.None;
     }
 
-    public static AudioHandle PlayClip(AudioClip clip, Vector3 position, AudioBus bus = AudioBus.Weapon, float volume = 1f)
+    public static AudioHandle PlayClip(AudioClip clip, Vector3 position, AudioBus bus = AudioBus.Weapon, float volume = 1f, bool spatial = true)
     {
-        return Instance ? Instance.SpawnClip(clip, bus, null, position, true, volume, false) : AudioHandle.None;
+        return Instance ? Instance.SpawnClip(clip, bus, null, position, spatial, volume, false) : AudioHandle.None;
     }
 
     public static void SetVolume(AudioHandle handle, float volume)
