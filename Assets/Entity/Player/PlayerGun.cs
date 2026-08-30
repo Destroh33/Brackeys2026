@@ -137,6 +137,11 @@ public class PlayerGun : MonoBehaviour
 
         AudioManager.PlayEventAt(SfxEvent.Fire, muzzle.position);
 
+        if (bullet.TryGetComponent<AphorismBullet>(out AphorismBullet aphorismBullet))
+        {
+            aphorismBullet.PlayRandomAphorism();
+        }
+
         if (data.BulletSfx)
         {
             AudioManager.PlayClip(data.BulletSfx, muzzle.position, AudioBus.Weapon);

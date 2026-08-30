@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 981631562125347123, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
       propertyPath: m_Name
-      value: DefaultBullet
+      value: AphorismBullet
       objectReference: {fileID: 0}
     - target: {fileID: 3162601241127245310, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -216,6 +216,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 981631562125347123, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8312108634124391602}
+    - targetCorrespondingSourceObject: {fileID: 981631562125347123, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7805540295695644909}
   m_SourcePrefab: {fileID: 100100000, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
 --- !u!4 &537326997959258013 stripped
 Transform:
@@ -242,6 +245,35 @@ MonoBehaviour:
   bullet: {fileID: 8434330929449684102}
   speed: 30
   lifetime: 5
+--- !u!114 &7805540295695644909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590936659314446910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e0fbed9e4e2554b97c2f9ebc15da3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AphorismBullet
+  aphorisms:
+  - voiceClip: {fileID: 8300000, guid: ef7720ae69dd45c4dbbc2ba34cef38af, type: 3}
+    voiceText: Raise your words, not your voice, for it is rain that grows flowers,
+      not thunder.
+  - voiceClip: {fileID: 8300000, guid: 7d68cb4bc7e3d764d8db0a374e75d76e, type: 3}
+    voiceText: Soft water carves hard stone.
+  - voiceClip: {fileID: 8300000, guid: e16d8d2e2e72b3141b6bb1a454e94c3c, type: 3}
+    voiceText: Real eyes realize real lies.
+  - voiceClip: {fileID: 8300000, guid: 769379901d36bad46b8b11ccf7891981, type: 3}
+    voiceText: When you compare and compete, you live in defeat.
+  - voiceClip: {fileID: 8300000, guid: c641333284ebf3242912d1d7a6e26852, type: 3}
+    voiceText: Hurt people hurt people.
+  - voiceClip: {fileID: 8300000, guid: 89366705caf21ab4d91e927996760ed8, type: 3}
+    voiceText: I'd rather have a bottle in front of me than a frontal lobotomy.
+  - voiceClip: {fileID: 8300000, guid: efe58586ba8e8df4f974c3525d11b481, type: 3}
+    voiceText: The axe forgets, but the tree remembers.
+  playerTransform: {fileID: 4602798125065306757, guid: 71c60106240db1c429b34a122da9ed4e, type: 3}
 --- !u!114 &8434330929449684102 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8115726487674083211, guid: 2364ae31c9be2bb49bdf2233ba8d7484, type: 3}
