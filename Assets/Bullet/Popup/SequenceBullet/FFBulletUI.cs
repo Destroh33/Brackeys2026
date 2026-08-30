@@ -2,10 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// Drives an FF-style menu for a <see cref="KeyPromptSequencePopup"/>: one prompt is on screen at a
-/// time, its character is highlighted, and the picks are fired as bullets once the sequence ends.
-/// </summary>
+
 public class FFBulletUI : MonoBehaviour
 {
     [System.Serializable]
@@ -13,6 +10,7 @@ public class FFBulletUI : MonoBehaviour
     {
         public TMP_Text PromptText;
         public TMP_Text CharacterText;
+        public AudioClip VoiceClip;
         public List<GameObject> Bullets = new();
     }
 
@@ -39,21 +37,18 @@ public class FFBulletUI : MonoBehaviour
         ShowCurrentPrompt();
     }
 
-    /// <summary>Records which option the player picked for the prompt currently on screen.</summary>
     public void Choose(int index)
     {
         if (promptIndex < 0 || promptIndex >= choices.Length) return;
         choices[promptIndex] = index;
     }
 
-    /// <summary>Shows the next prompt and highlights its character; the rest go dark and white.</summary>
     public void AdvancePrompt()
     {
         ++promptIndex;
         ShowCurrentPrompt();
     }
 
-    /// <summary>Fires the bullet each answered prompt picked.</summary>
     public void FireBullets()
     {
         for (int i = 0; i < prompts.Count; ++i)
@@ -74,8 +69,25 @@ public class FFBulletUI : MonoBehaviour
             var prompt = prompts[i];
             bool active = i == promptIndex;
 
+            if (active) AudioManager.PlayClip(prompt.VoiceClip, GameManager.Instance.Player.transform.position);
+
             if (prompt.PromptText) prompt.PromptText.gameObject.SetActive(active);
             if (prompt.CharacterText) prompt.CharacterText.color = active ? activeColor : inactiveColor;
         }
+
+        //switch (promptIndex)
+        //{
+        //    case 0:
+        //        MusicManager.Push(this, Sfx.FFVoiceline1);
+        //        break;
+        //    case 1:
+        //        MusicManager.Push(this, Sfx.FFVoiceline2);
+        //        break;
+        //    case 2:
+        //        MusicManager.Push(this, Sfx.FFVoiceline3);
+        //        break;
+        //}
+
+        
     }
 }
