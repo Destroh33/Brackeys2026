@@ -118,4 +118,28 @@ public class MusicManager : MonoBehaviour
             ? AudioHandle.None
             : AudioManager.Loop(wanted, null, 0f, 0f);
     }
+
+    public static void PlayAphorism(AudioHandle voiceHandle)
+    {
+        if (!Instance || !voiceHandle.Valid)
+        {
+            return;
+        }
+
+        Instance.StartCoroutine(
+            Instance.AphorismMusicRoutine(voiceHandle)
+        );
+    }
+
+    System.Collections.IEnumerator AphorismMusicRoutine(AudioHandle voiceHandle)
+    {
+        Push(this, Sfx.MusicAphorism);
+
+        while (AudioManager.Playing(voiceHandle))
+        {
+            yield return null;
+        }
+
+        Pop(this);
+    }
 }

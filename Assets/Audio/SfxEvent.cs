@@ -185,4 +185,28 @@ public static class SfxEvent
     // ---------------------------------------------------------------- world
 
     public static readonly SfxLayer[] DoorOpen = { L(Sfx.DoorOpen, 0f, 1f, None) };
+
+    // ------------------------------------------------------------------- ui
+
+    public static readonly SfxLayer[] UiHover = { L(Sfx.CylinderTick, 0f, 0.35f, Wide) };
+
+    public static readonly SfxLayer[] UiClick =
+    {
+        L(Sfx.Eject, 0f, 0.7f, Light),
+    };
+
+    public static readonly SfxLayer[] UiStart =
+    {
+        L(Sfx.Reload, 0f, 0.9f, None),
+    };
+
+    public static readonly SfxLayer[] UiBack = { L(Sfx.DryFire, 0f, 0.6f, Light) };
+
+    public static readonly SfxLayer[] UiScreen = { L(Sfx.Whoosh, 0f, 0.45f, Light) };
+
+    public static readonly SfxLayer[] UiCopy =
+    {
+        L(Sfx.CylinderTick, 0f, 0.6f, Light),
+        L(Sfx.Eject, 0.05f, 0.35f, Light),
+    };
 }

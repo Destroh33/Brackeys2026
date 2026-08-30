@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d883fe8360a6d41a8450bacc6068b6, type: 3}
   m_Name: MeowBullet
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
-  Name: 
-  Prefab: {fileID: 0}
+  Name: meow
+  Prefab: {fileID: 590936659314446910, guid: ec15a414ec9237642bc96d70557705bc, type: 3}
+  BulletSfx: {fileID: 8300000, guid: ad338c53e443e834dafdfbf7c07a9baa, type: 3}
+  ReportCue: 
+  ReportFollowsBullet: 0
+  Category: 0
+  Rarity: 1

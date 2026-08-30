@@ -8,6 +8,7 @@ public enum AudioBus
     Player,
     Ui,
     Music,
+    VoiceLine,
 }
 
 [CreateAssetMenu(fileName = "AudioConfig", menuName = "Audio Config")]
@@ -15,12 +16,13 @@ public class AudioConfig : ScriptableObject
 {
     [Range(0f, 1f)] public float Master = 1f;
 
-    [Range(0f, 1f)] public float World = 0.8f;
-    [Range(0f, 1f)] public float Weapon = 1f;
-    [Range(0f, 1f)] public float Enemy = 0.9f;
-    [Range(0f, 1f)] public float Player = 0.9f;
-    [Range(0f, 1f)] public float Ui = 0.7f;
-    [Range(0f, 1f)] public float Music = 0.6f;
+    [Range(0f, 1f)] public float World = 0.6f;
+    [Range(0f, 1f)] public float Weapon = 0.8f;
+    [Range(0f, 1f)] public float Enemy = 0.7f;
+    [Range(0f, 1f)] public float Player = 0.7f;
+    [Range(0f, 1f)] public float Ui = 0.5f;
+    [Range(0f, 1f)] public float Music = 0.4f;
+    [Range(0f, 1f)] public float VoiceLine = 1f;
 
     [Min(8)] public int Voices = 48;
     [Min(1)] public int VoicesPerCue = 4;
@@ -43,6 +45,7 @@ public class AudioConfig : ScriptableObject
             AudioBus.Player => Player,
             AudioBus.Ui => Ui,
             AudioBus.Music => Music,
+            AudioBus.VoiceLine => VoiceLine,
             _ => World,
         };
     }

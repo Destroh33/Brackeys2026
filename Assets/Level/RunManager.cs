@@ -14,9 +14,22 @@ public class RunManager : MonoBehaviour
     [SerializeField] bool useFixedSeed;
     [SerializeField] float minimumDeathHold = 1.4f;
     [SerializeField] bool logLoadout = true;
+    [SerializeField] bool loadEndScene = true;
+    [SerializeField] float endSceneDelay = 1.2f;
 
     public int RunSeed { get; private set; }
+    public string SeedText { get; private set; }
+    public bool Seeded { get; private set; }
     public Checkpoint Active { get; private set; }
+
+    public float RunTime { get; private set; }
+    public int Deaths { get; private set; }
+    public bool RunActive { get; private set; }
+    public bool RunComplete { get; private set; }
+
+    bool sawEnemies;
+
+    public event System.Action<float, int> RunFinished;
 
     InputSystem_Actions actions;
     GameHud hud;
@@ -36,10 +49,35 @@ public class RunManager : MonoBehaviour
         }
         Instance = this;
 
-        RunSeed = useFixedSeed ? fixedSeed : Random.Range(int.MinValue, int.MaxValue);
+        ResolveSeed();
         actions = new InputSystem_Actions();
 
         EnsureHud();
+    }
+
+    void ResolveSeed()
+    {
+        bool typed = RunSeedEntry.WasEntered();
+        string entered = RunSeedEntry.Consume();
+
+        if (!string.IsNullOrWhiteSpace(entered))
+        {
+            SeedText = entered.Trim();
+            RunSeed = SeedText.GetHashCode();
+            Seeded = typed;
+        }
+        else if (useFixedSeed)
+        {
+            RunSeed = fixedSeed;
+            SeedText = fixedSeed.ToString();
+            Seeded = true;
+        }
+        else
+        {
+            RunSeed = Random.Range(int.MinValue, int.MaxValue);
+            SeedText = RunSeed.ToString();
+            Seeded = false;
+        }
     }
 
     void OnDestroy()
@@ -75,10 +113,14 @@ public class RunManager : MonoBehaviour
         segments = FindObjectsByType<LevelSegment>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         if (startCheckpoint) Activate(startCheckpoint);
+
+        RunActive = true;
     }
 
     void Update()
     {
+        TickRun();
+
         if (dying)
         {
             deathElapsed += Time.unscaledDeltaTime;
@@ -88,6 +130,56 @@ public class RunManager : MonoBehaviour
         }
 
         if (actions.Player.Restart.WasPressedThisFrame()) Restart();
+    }
+
+    void TickRun()
+    {
+        if (!RunActive || RunComplete) return;
+
+        RunTime += Time.deltaTime;
+
+        int remaining = EnemiesRemaining();
+        if (remaining > 0)
+        {
+            sawEnemies = true;
+            return;
+        }
+
+        if (!sawEnemies) return;
+
+        RunComplete = true;
+        RunActive = false;
+
+        RunResult.Record(RunTime, Deaths, SeedText, Seeded);
+        RunFinished?.Invoke(RunTime, Deaths);
+
+        if (loadEndScene) StartCoroutine(GoToEnd());
+    }
+
+    System.Collections.IEnumerator GoToEnd()
+    {
+        yield return new WaitForSecondsRealtime(endSceneDelay);
+        ScreenFlow.GoEnd();
+    }
+
+    public int EnemiesRemaining()
+    {
+        if (segments == null) return 1;
+
+        int alive = 0;
+        foreach (var segment in segments)
+        {
+            if (!segment) continue;
+
+            foreach (var enemy in segment.Live)
+            {
+                if (!enemy) continue;
+
+                var health = enemy.GetComponentInChildren<EntityHealth>(true);
+                if (health && !health.Dead) ++alive;
+            }
+        }
+        return alive;
     }
 
     public void Activate(Checkpoint checkpoint)
@@ -135,6 +227,7 @@ public class RunManager : MonoBehaviour
 
     void OnPlayerDied()
     {
+        ++Deaths;
         dying = true;
         deathElapsed = 0f;
 

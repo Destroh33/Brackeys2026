@@ -37,6 +37,7 @@ public class AudioManager : MonoBehaviour
         public Transform Follow;
         public bool Spatial;
         public float Jitter;
+        public AudioBus? Bus;
     }
 
     class Duck
@@ -62,6 +63,7 @@ public class AudioManager : MonoBehaviour
     readonly HashSet<string> missing = new();
     readonly Dictionary<AudioBus, Duck> ducks = new();
     readonly List<Scheduled> scheduled = new();
+    AudioListener ownListener;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Bootstrap()
@@ -91,11 +93,35 @@ public class AudioManager : MonoBehaviour
         }
 
         BuildPool();
+
+        ownListener = gameObject.AddComponent<AudioListener>();
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+        RefreshListener();
+    }
+
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        RefreshListener();
+    }
+
+    void RefreshListener()
+    {
+        if (!ownListener) return;
+
+        ownListener.enabled = false;
+
+        foreach (var listener in FindObjectsByType<AudioListener>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            if (listener != ownListener && listener.isActiveAndEnabled) return;
+        }
+
+        ownListener.enabled = true;
     }
 
     void OnDestroy()
     {
         if (Instance == this) Instance = null;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void BuildPool()
@@ -117,8 +143,6 @@ public class AudioManager : MonoBehaviour
             voices[i] = new Voice { Source = source };
         }
     }
-
-    // ------------------------------------------------------------------ play
 
     public static AudioHandle Play(string cue, float volume = 1f)
     {
@@ -174,6 +198,11 @@ public class AudioManager : MonoBehaviour
         Instance?.Schedule(layers, null, Vector3.zero, false, 1f);
     }
 
+    public static void PlayEvent(SfxLayer[] layers, AudioBus bus)
+    {
+        Instance?.Schedule(layers, null, Vector3.zero, false, 1f, bus);
+    }
+
     public static void PlayEventAt(SfxLayer[] layers, Vector3 position, float volume = 1f)
     {
         Instance?.Schedule(layers, null, position, true, volume);
@@ -184,7 +213,7 @@ public class AudioManager : MonoBehaviour
         if (Instance && follow) Instance.Schedule(layers, follow, follow.position, true, volume);
     }
 
-    void Schedule(SfxLayer[] layers, Transform follow, Vector3 position, bool spatial, float volume)
+    void Schedule(SfxLayer[] layers, Transform follow, Vector3 position, bool spatial, float volume, AudioBus? bus = null)
     {
         if (layers == null) return;
 
@@ -194,7 +223,7 @@ public class AudioManager : MonoBehaviour
 
             if (layer.Delay <= 0f)
             {
-                Spawn(layer.Cue, follow, position, spatial, volume * layer.Volume, false, layer.Jitter);
+                Spawn(layer.Cue, follow, position, spatial, volume * layer.Volume, false, layer.Jitter, bus);
                 continue;
             }
 
@@ -207,6 +236,7 @@ public class AudioManager : MonoBehaviour
                 Follow = follow,
                 Spatial = spatial,
                 Jitter = layer.Jitter,
+                Bus = bus,
             });
         }
     }
@@ -220,11 +250,9 @@ public class AudioManager : MonoBehaviour
 
             scheduled.RemoveAt(i);
             Vector3 position = entry.Follow ? entry.Follow.position : entry.Position;
-            Spawn(entry.Cue, entry.Follow, position, entry.Spatial, entry.Volume, false, entry.Jitter);
+            Spawn(entry.Cue, entry.Follow, position, entry.Spatial, entry.Volume, false, entry.Jitter, entry.Bus);
         }
     }
-
-    // ------------------------------------------------------------------ mix
 
     public static void SetMaster(float volume)
     {
@@ -262,9 +290,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ------------------------------------------------------------- internals
-
-    AudioHandle Spawn(string cue, Transform follow, Vector3 position, bool spatial, float volume, bool looping, float jitter = -1f)
+    AudioHandle Spawn(string cue, Transform follow, Vector3 position, bool spatial, float volume, bool looping, float jitter = -1f, AudioBus? bus = null)
     {
         var clips = Resolve(cue);
         if (clips.Length == 0) return AudioHandle.None;
@@ -272,7 +298,7 @@ public class AudioManager : MonoBehaviour
         if (!looping && Live(cue) >= config.VoicesPerCue) return AudioHandle.None;
 
         var clip = Pick(cue, clips);
-        var handle = SpawnClip(clip, BusFor(cue), follow, position, spatial, volume, looping, jitter);
+        var handle = SpawnClip(clip, bus ?? BusFor(cue), follow, position, spatial, volume, looping, jitter);
 
         var voice = Resolve(handle);
         if (voice != null)
