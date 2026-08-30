@@ -32,6 +32,8 @@ public class MeleeEnemy : Enemy
 
     void SetState(State next)
     {
+        if (next != state) Announce(next);
+
         state = next;
         EnterState();
 
@@ -42,6 +44,22 @@ public class MeleeEnemy : Enemy
             case State.WindUp: weapon.WindUp(windUpDuration); break;
             case State.Lunge: weapon.Swing(lungeDuration); break;
             case State.Recover: weapon.Recover(recoverDuration); break;
+        }
+    }
+
+    void Announce(State next)
+    {
+        switch (next)
+        {
+            case State.Chase when state == State.Idle:
+                AudioManager.PlayEventOn(SfxEvent.EnemyAlert, transform);
+                break;
+            case State.WindUp:
+                AudioManager.PlayEventOn(SfxEvent.MeleeWindUp, transform);
+                break;
+            case State.Lunge:
+                AudioManager.PlayEventOn(SfxEvent.MeleeSwing, transform);
+                break;
         }
     }
 
@@ -105,6 +123,7 @@ public class MeleeEnemy : Enemy
         if (hitThisLunge || !HasTarget || DistanceToTarget > hitRadius) return;
 
         hitThisLunge = true;
+        AudioManager.PlayEventOn(SfxEvent.MeleeHit, transform);
         if (TargetHealth != null) TargetHealth.Kill();
     }
 

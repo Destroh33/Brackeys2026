@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PoisonGasCloud : MonoBehaviour
 {
+    AudioHandle gasLoop;
+
     [SerializeField] ParticleSystem[] emitters;
     [SerializeField] LayerMask affectMask = ~0;
     [SerializeField] float maxRadius = 6.5f;
@@ -11,6 +13,9 @@ public class PoisonGasCloud : MonoBehaviour
     [SerializeField] float dwellToKill = 1.4f;
     [SerializeField] float tickInterval = 0.15f;
     [SerializeField] float dwellRecoveryMultiplier = 0.5f;
+    [SerializeField] float audioFade = 2.0f;
+
+    bool audioFading;
 
     readonly Dictionary<EntityHealth, float> dwell = new();
     readonly Dictionary<EntityHealth, float> decaying = new();
@@ -23,6 +28,8 @@ public class PoisonGasCloud : MonoBehaviour
 
     void Start()
     {
+        gasLoop = AudioManager.Loop(Sfx.GasLoop, transform, 0.8f);
+
         startTime = Time.time;
         nextTickTime = Time.time;
     }
@@ -30,6 +37,12 @@ public class PoisonGasCloud : MonoBehaviour
     void Update()
     {
         float elapsed = Time.time - startTime;
+
+        if (!audioFading && elapsed > duration - audioFade)
+        {
+            audioFading = true;
+            AudioManager.Stop(gasLoop, audioFade);
+        }
 
         if (elapsed > duration)
         {
@@ -98,5 +111,10 @@ public class PoisonGasCloud : MonoBehaviour
     {
         Gizmos.color = new Color(0.4f, 1.0f, 0.2f, 0.4f);
         Gizmos.DrawWireSphere(transform.position, maxRadius);
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.Stop(gasLoop, 0.4f);
     }
 }

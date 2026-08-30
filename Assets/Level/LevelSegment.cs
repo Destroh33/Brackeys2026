@@ -19,6 +19,7 @@ public class LevelSegment : MonoBehaviour
     Transform templateRoot;
 
     public int EnemyCount => records.Count;
+    public IReadOnlyList<GameObject> Live => live;
 
     public event System.Action Respawned;
 

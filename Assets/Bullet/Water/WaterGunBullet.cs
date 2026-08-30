@@ -28,6 +28,8 @@ public class WaterGunBullet : MonoBehaviour
 
     IEnumerator SprayCoro()
     {
+        var stream = AudioManager.Loop(Sfx.WaterLoop, transform, 0.9f);
+
         float interval = streamDuration / Mathf.Max(1, blobCount);
 
         for (int i = 0; i < blobCount; ++i)
@@ -41,6 +43,7 @@ public class WaterGunBullet : MonoBehaviour
             yield return new WaitForSeconds(interval);
         }
 
+        AudioManager.Stop(stream, 0.35f);
         if (mist) mist.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         Destroy(gameObject, lingerAfterStream);
     }

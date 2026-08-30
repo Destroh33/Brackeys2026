@@ -149,6 +149,7 @@ public class RunManager : MonoBehaviour
 
         var rounds = Active.Rounds(RunSeed);
         player.Gun.SetBullets(rounds);
+        AudioManager.PlayEventOn(SfxEvent.Reload, player.transform);
         LogLoadout(rounds);
     }
 

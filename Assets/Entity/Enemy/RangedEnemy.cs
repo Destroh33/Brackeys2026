@@ -40,6 +40,12 @@ public class RangedEnemy : Enemy
 
     void SetState(State next)
     {
+        if (next == State.Aim && state == State.Idle)
+        {
+            AudioManager.PlayEventOn(SfxEvent.EnemyAlert, transform);
+            AudioManager.PlayEventOn(SfxEvent.EnemyAim, transform);
+        }
+
         state = next;
         EnterState();
     }
@@ -87,6 +93,7 @@ public class RangedEnemy : Enemy
 
         GameObject bullet = Instantiate(bulletPrefab, origin, Quaternion.LookRotation(direction));
         IgnoreOwnColliders(bullet);
+        bullet.AddComponent<BulletWhoosh>().Configure(0.3f, 1f);
 
         if (bulletSpeed > 0f && bullet.TryGetComponent(out DefaultBulletMovement movement))
         {
@@ -94,6 +101,7 @@ public class RangedEnemy : Enemy
         }
 
         if (gun) gun.Fire();
+        AudioManager.PlayEventAt(SfxEvent.EnemyFire, origin);
     }
 
     void IgnoreOwnColliders(GameObject bullet)

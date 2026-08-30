@@ -42,6 +42,7 @@ public class FuckYouBulletMovement : MonoBehaviour
         body.angularVelocity = Vector3.zero;
         body.isKinematic = true;
 
+        AudioManager.PlayEventOn(SfxEvent.FuckYou, transform);
         SpawnSign();
 
         Quaternion start = transform.rotation;

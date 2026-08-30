@@ -63,6 +63,7 @@ public class BlockShatter : MonoBehaviour
         }
 
         Vector3 blastOrigin = transform.TransformPoint(blastOffset);
+        AudioManager.PlayEventAt(SfxEvent.EnemyShatter, blastOrigin);
         Vector3 knockback = KnockbackDirection() * knockbackSpeed;
 
         foreach (var piece in pieces)

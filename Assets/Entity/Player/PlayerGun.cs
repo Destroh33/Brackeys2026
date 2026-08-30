@@ -94,6 +94,8 @@ public class PlayerGun : MonoBehaviour
         nextSkipTime = nextFireTime;
 
         BulletData data = PopChamber();
+        AudioManager.PlayEventAt(SfxEvent.Fire, muzzle.position);
+        if (data == null) AudioManager.PlayEventAt(SfxEvent.DryFire, muzzle.position);
         if (data != null)
         {
             SpawnBullet(data);
@@ -110,6 +112,7 @@ public class PlayerGun : MonoBehaviour
         nextSkipTime = Time.time + 1f / skipRate;
 
         if (ejectOnSkip) chambers[chamberIndex] = null;
+        AudioManager.PlayEventAt(SfxEvent.Eject, muzzle.position);
         SkipChamber();
 
         var kick = gunRecoil.positionKick;
@@ -132,12 +135,25 @@ public class PlayerGun : MonoBehaviour
         Vector3 direction = (aimPoint - muzzle.position).normalized;
         var bullet = Instantiate(data.Prefab, muzzle.position, Quaternion.LookRotation(direction));
 
+        AudioManager.PlayEventAt(SfxEvent.Fire, muzzle.position);
+
         if (data.BulletSfx)
         {
-            AudioSource.PlayClipAtPoint(data.BulletSfx, muzzle.position);
+            AudioManager.PlayClip(data.BulletSfx, muzzle.position, AudioBus.Weapon);
+        }
+        else
+        {
+            string report = string.IsNullOrEmpty(data.ReportCue) ? SfxEvent.ReportFor(data.name) : data.ReportCue;
+            if (!string.IsNullOrEmpty(report))
+            {
+                bool travels = data.ReportFollowsBullet || report == Sfx.FirePiercing;
+                if (travels) AudioManager.PlayOn(report, bullet.transform);
+                else AudioManager.PlayAt(report, muzzle.position);
+            }
         }
 
         IgnoreOwnColliders(bullet);
+        bullet.AddComponent<BulletWhoosh>();
     }
 
     void IgnoreOwnColliders(GameObject bullet)

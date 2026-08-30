@@ -6,7 +6,9 @@ public class ImFreeBulletMovement : MonoBehaviour
     [SerializeField] LayerMask wallMask = 1;
     [SerializeField] float speed = 15.0f;
     [SerializeField] float freeDuration = 2.5f;
-    [SerializeField] float lifetime = 4.0f;
+    [SerializeField] float lifetime = 7.0f;
+    [SerializeField] float immuneDuration = 5.0f;
+    [SerializeField] float bounceClearance = 0.25f;
     [SerializeField] float minSegmentDuration = 0.6f;
     [SerializeField] float maxSegmentDuration = 1.4f;
     [SerializeField] float minTurnSpeed = 220.0f;
@@ -24,14 +26,22 @@ public class ImFreeBulletMovement : MonoBehaviour
     float turnSpeed;
     Vector3 smoothedAvoid;
     Vector3[] probeDirections;
+    bool immune;
 
     void Reset()
     {
         TryGetComponent(out bullet);
     }
 
+    void OnDestroy()
+    {
+        MusicManager.Pop(this);
+    }
+
     void Start()
     {
+        MusicManager.Push(this, Sfx.MusicFreedom);
+
         probeDirections = new Vector3[]
         {
             Vector3.forward,
@@ -43,6 +53,9 @@ public class ImFreeBulletMovement : MonoBehaviour
 
         spawnFixedTime = Time.fixedTime;
         bullet.RB.linearVelocity = transform.forward * speed;
+
+        SetImmune(true);
+
         NextSegment();
     }
 
@@ -53,6 +66,8 @@ public class ImFreeBulletMovement : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        if (immune && Time.fixedTime > spawnFixedTime + immuneDuration) SetImmune(false);
 
         Quaternion rotation = bullet.RB.rotation;
         Vector3 desired = rotation * Vector3.forward;
@@ -81,6 +96,28 @@ public class ImFreeBulletMovement : MonoBehaviour
         Quaternion next = Quaternion.RotateTowards(rotation, target, turnRate * Time.fixedDeltaTime);
         bullet.RB.MoveRotation(next);
         bullet.RB.linearVelocity = next * Vector3.forward * speed;
+    }
+
+    void SetImmune(bool value)
+    {
+        immune = value;
+        bullet.Immune = value;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!immune || Bullet.IsBullet(collision)) return;
+
+        Vector3 normal = collision.GetContact(0).normal;
+        Vector3 heading = bullet.RB.rotation * Vector3.forward;
+        Vector3 bounced = Vector3.Reflect(heading, normal).normalized;
+
+        bullet.RB.position = collision.GetContact(0).point + normal * bounceClearance;
+        bullet.RB.MoveRotation(Quaternion.LookRotation(bounced, Vector3.up));
+        bullet.RB.linearVelocity = bounced * speed;
+
+        smoothedAvoid = normal * avoidStrength;
+        NextSegment();
     }
 
     Vector3 GetAvoidance(Quaternion rotation)

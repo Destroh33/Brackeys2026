@@ -18,6 +18,8 @@ public class ShotgunBullet : MonoBehaviour
 
             var pellet = Instantiate(pelletPrefab, transform.position + direction * spawnOffset, Quaternion.LookRotation(direction));
 
+            pellet.AddComponent<BulletWhoosh>().Configure(0.12f, 0.4f);
+
             if (inherited && inherited.Owner)
             {
                 pellet.AddComponent<BulletOwnerIgnore>().Apply(inherited.Owner, inherited.OwnerColliders);

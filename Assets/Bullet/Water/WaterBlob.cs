@@ -50,6 +50,7 @@ public class WaterBlob : MonoBehaviour
         if (Bullet.IsBullet(collision)) return;
 
         var contact = collision.GetContact(0);
+        AudioManager.PlayEventAt(SfxEvent.HitWater, contact.point, 0.7f);
         if (splashEffect)
         {
             Instantiate(splashEffect, contact.point + contact.normal * 0.02f, Quaternion.LookRotation(contact.normal));

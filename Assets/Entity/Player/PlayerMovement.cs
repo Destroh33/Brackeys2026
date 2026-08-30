@@ -21,6 +21,10 @@ public class PlayerMovement : MonoBehaviour
     [Range(0f, 1f)] public float walkableNormal = 0.7f;
     public LayerMask groundMask = ~0;
 
+    public float stepStride = 2.1f;
+    public float minLandSpeed = 3.6f;
+    public float hardLandSpeed = 9f;
+
     public Transform lookTransform;
 
     public bool IsGrounded { get; private set; }
@@ -32,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private float timeSinceGrounded;
     private float timeSinceJumpPressed = Mathf.Infinity;
+    private float stepDistance;
+    private bool wasGrounded;
+    private float peakFallSpeed;
 
     private void Awake()
     {
@@ -79,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyMovement(dt);
         ApplyStepUp();
         ApplyFriction(dt);
+        TickFootsteps(dt);
     }
 
     private bool CheckGrounded()
@@ -96,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
         if (!canJump || timeSinceJumpPressed > jumpBufferTime) return;
 
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpSpeed, rb.linearVelocity.z);
+        AudioManager.PlayEventOn(SfxEvent.Jump, transform);
         timeSinceJumpPressed = Mathf.Infinity;
         timeSinceGrounded = coyoteTime;
         IsGrounded = false;
@@ -233,6 +242,49 @@ public class PlayerMovement : MonoBehaviour
 
     private int StepMask => groundMask & ~(1 << gameObject.layer);
 
+    private void TickFootsteps(float dt)
+    {
+        if (!IsGrounded) peakFallSpeed = Mathf.Max(peakFallSpeed, -rb.linearVelocity.y);
+
+        if (IsGrounded && !wasGrounded)
+        {
+            if (peakFallSpeed >= minLandSpeed)
+            {
+                float weight = Mathf.InverseLerp(minLandSpeed, hardLandSpeed * 1.6f, peakFallSpeed);
+                var landing = peakFallSpeed > hardLandSpeed ? SfxEvent.LandHard : SfxEvent.LandSoft;
+                AudioManager.PlayEventOn(landing, transform, Mathf.Lerp(0.3f, 1f, weight));
+            }
+
+            peakFallSpeed = 0f;
+            stepDistance = 0f;
+        }
+        wasGrounded = IsGrounded;
+
+        if (!IsGrounded) return;
+
+        Vector3 flat = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        if (flat.magnitude < 0.6f)
+        {
+            stepDistance = 0f;
+            return;
+        }
+
+        stepDistance += flat.magnitude * dt;
+        if (stepDistance < stepStride) return;
+
+        stepDistance = 0f;
+        AudioManager.PlayEventOn(OnMetal() ? SfxEvent.StepMetal : SfxEvent.StepConcrete, transform);
+    }
+
+    private bool OnMetal()
+    {
+        Vector3 origin = transform.TransformPoint(capsule.center);
+        if (!Physics.Raycast(origin, Vector3.down, out RaycastHit hit, capsule.height, groundMask, QueryTriggerInteraction.Ignore)) return false;
+        if (!hit.collider.TryGetComponent(out Renderer surface) || !surface.sharedMaterial) return false;
+
+        string material = surface.sharedMaterial.name;
+        return material.Contains("Grate") || material.Contains("Metal");
+    }
     private void ApplyFriction(float dt)
     {
         if (moveInput != Vector2.zero) return;

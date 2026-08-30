@@ -48,6 +48,8 @@ public class PlayerDeath : MonoBehaviour
     readonly List<Behaviour> suspended = new();
 
     PhysicsMaterial bounceMaterial;
+    AudioHandle tinnitus;
+    AudioHandle drone;
     Rigidbody playerBody;
     float hitStopElapsed = -1f;
     bool active;
@@ -141,6 +143,12 @@ public class PlayerDeath : MonoBehaviour
                 Random.onUnitSphere * cameraSpin, true);
         }
 
+        AudioManager.PlayEventAt(SfxEvent.Death, transform.position);
+        AudioManager.DuckBus(AudioBus.World, 0.12f, 1.6f, 1.2f);
+        AudioManager.DuckBus(AudioBus.Enemy, 0.1f, 1.6f, 1.2f);
+        tinnitus = AudioManager.Loop(Sfx.Tinnitus, null, 0.55f);
+        drone = AudioManager.Loop(Sfx.Drone, null, 0.8f);
+
         hitStopElapsed = 0f;
         Time.timeScale = hitStopScale;
     }
@@ -159,6 +167,9 @@ public class PlayerDeath : MonoBehaviour
 
         hitStopElapsed = -1f;
         Time.timeScale = 1f;
+
+        AudioManager.Stop(tinnitus, 0.35f);
+        AudioManager.Stop(drone, 0.5f);
 
         foreach (var part in detached)
         {

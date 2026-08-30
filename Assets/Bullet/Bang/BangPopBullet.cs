@@ -37,6 +37,7 @@ public class BangPopBullet : MonoBehaviour
             popRoot.localScale = Vector3.zero;
         }
         if (puff) puff.Play();
+        AudioManager.PlayEventAt(SfxEvent.BangPop, transform.position);
 
         Launch();
     }

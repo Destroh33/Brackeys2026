@@ -319,15 +319,15 @@ MonoBehaviour:
     m_Bits: 1
   speed: 15
   freeDuration: 5
-  lifetime: 5
+  lifetime: 7
   minSegmentDuration: 0.6
   maxSegmentDuration: 1.4
   minTurnSpeed: 220
   maxTurnSpeed: 420
   avoidTurnSpeed: 540
-  avoidStrength: 1.5
+  avoidStrength: 2.4
   avoidSmoothing: 6
-  probeDistance: 4
+  probeDistance: 6.5
   probeRadius: 0.3
   whiskerAngle: 40
 --- !u!114 &7482835496203145958 stripped

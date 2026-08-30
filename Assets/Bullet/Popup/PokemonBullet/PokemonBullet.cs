@@ -10,7 +10,13 @@ public class PokemonBullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        MusicManager.Push(this, Sfx.MusicPika);
         muzzle = GameManager.Instance.Player.GetComponent<PlayerGun>().muzzle;
+    }
+
+    void OnDestroy()
+    {
+        MusicManager.Pop(this);
     }
 
     // Update is called once per frame

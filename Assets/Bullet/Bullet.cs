@@ -4,6 +4,8 @@ public class Bullet : MonoBehaviour
 {
     public Rigidbody RB;
 
+    [System.NonSerialized] public bool Immune;
+
     virtual protected void Reset()
     {
         TryGetComponent(out RB);
@@ -21,13 +23,21 @@ public class Bullet : MonoBehaviour
 
     virtual protected void OnCollisionEnter(Collision collision)
     {
-        if (IsBullet(collision)) return;
+        if (Immune || IsBullet(collision)) return;
 
         var entityHealth = collision.gameObject.GetComponentInParent<EntityHealth>();
+        Vector3 point = collision.GetContact(0).point;
+
         if (entityHealth)
         {
+            AudioManager.PlayEventAt(SfxEvent.HitFlesh, point);
             OnHit(entityHealth);
         }
+        else
+        {
+            AudioManager.PlayEventAt(SfxEvent.HitConcrete, point);
+        }
+
         Destroy(gameObject);
     }
 }

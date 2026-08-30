@@ -11,13 +11,13 @@ public class MetalDoor : MonoBehaviour
     [SerializeField] Vector3 openDirection = Vector3.up;
     [SerializeField] float openTravel = 1.04f;
 
-    [SerializeField] float rattleDuration = 0.42f;
+    [SerializeField] float rattleDuration = 0.6f;
     [SerializeField] float rattleAmplitude = 0.035f;
     [SerializeField] float rattleFrequency = 34f;
 
-    [SerializeField] float slideDuration = 0.85f;
+    [SerializeField] float slideDuration = 1.25f;
     [SerializeField] AnimationCurve slideCurve = new(new Keyframe(0f, 0f), new Keyframe(0.75f, 1.05f), new Keyframe(1f, 1f));
-    [SerializeField] float settleDuration = 0.18f;
+    [SerializeField] float settleDuration = 0.15f;
     [SerializeField] float settleDrop = 0.06f;
 
     [SerializeField] float shakeAmplitude = 0.9f;
@@ -29,6 +29,9 @@ public class MetalDoor : MonoBehaviour
 
     public UnityEvent OpeningEvent = new();
     public UnityEvent OpenedEvent = new();
+
+    readonly List<int> gated = new();
+    bool warned;
 
     Vector3 closedPosition;
     Coroutine routine;
@@ -47,9 +50,39 @@ public class MetalDoor : MonoBehaviour
         closedPosition = transform.localPosition;
     }
 
+    void Start()
+    {
+        CaptureGated();
+    }
+
     void OnEnable()
     {
         if (segment) segment.Respawned += Rebind;
+    }
+
+    void CaptureGated()
+    {
+        gated.Clear();
+        if (!segment) return;
+
+        foreach (var health in enemies)
+        {
+            if (!health) continue;
+
+            int index = IndexInSegment(health);
+            if (index >= 0) gated.Add(index);
+            else Debug.LogWarning($"{name}: gated enemy '{health.name}' is not inside {segment.name}, it will never respawn correctly", this);
+        }
+    }
+
+    int IndexInSegment(EntityHealth health)
+    {
+        var live = segment.Live;
+        for (int i = 0; i < live.Count; ++i)
+        {
+            if (live[i] && health.transform.IsChildOf(live[i].transform)) return i;
+        }
+        return -1;
     }
 
     void OnDisable()
@@ -67,9 +100,25 @@ public class MetalDoor : MonoBehaviour
     {
         foreach (var enemy in enemies)
         {
-            if (enemy && !enemy.Dead) return false;
+            if (!enemy || enemy.Dead) continue;
+
+            if (!warned && enemy.Invulnerable)
+            {
+                warned = true;
+                Debug.LogWarning($"{name} is waiting on '{enemy.name}', which is invulnerable because its segment is not engaged", this);
+            }
+            return false;
         }
         return true;
+    }
+
+    [ContextMenu("Log Blockers")]
+    void LogBlockers()
+    {
+        foreach (var enemy in enemies)
+        {
+            if (enemy && !enemy.Dead) Debug.Log($"{name} blocked by '{enemy.name}' (invulnerable: {enemy.Invulnerable})", enemy);
+        }
     }
 
     public void Open()
@@ -95,10 +144,18 @@ public class MetalDoor : MonoBehaviour
         if (!segment) return;
 
         enemies.Clear();
-        foreach (var health in segment.GetComponentsInChildren<EntityHealth>(false))
+        foreach (int index in gated)
         {
-            if (health.GetComponentInParent<Enemy>()) enemies.Add(health);
+            if (index < 0 || index >= segment.Live.Count) continue;
+
+            var spawned = segment.Live[index];
+            if (!spawned) continue;
+
+            var health = spawned.GetComponentInChildren<EntityHealth>(true);
+            if (health) enemies.Add(health);
         }
+
+        warned = false;
     }
 
     IEnumerator OpenRoutine()
@@ -106,6 +163,7 @@ public class MetalDoor : MonoBehaviour
         OpeningEvent?.Invoke();
         if (dust) dust.Play();
 
+        AudioManager.PlayEventAt(SfxEvent.DoorOpen, transform.position);
         yield return Rattle();
 
         Vector3 travel = transform.InverseTransformDirection(WorldOpenDirection()) * OpenDistance();

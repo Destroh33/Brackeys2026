@@ -15,6 +15,9 @@ public class NukeExplosion : MonoBehaviour
 
     void Start()
     {
+        AudioManager.PlayEventAt(SfxEvent.NukeDetonate, transform.position);
+        AudioManager.DuckBus(AudioBus.World, 0.3f, 0.9f, 1.4f);
+
         startTime = Time.time;
         Sweep();
     }

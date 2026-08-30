@@ -38,6 +38,7 @@ public class PoisonGasBullet : Bullet
         if (burst) return;
         burst = true;
 
+        AudioManager.PlayEventAt(SfxEvent.GasBurst, position);
         if (cloudPrefab) Instantiate(cloudPrefab, position, Quaternion.identity);
         if (hiss)
         {

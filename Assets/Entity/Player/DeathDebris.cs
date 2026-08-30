@@ -10,6 +10,8 @@ public class DeathDebris : MonoBehaviour
 
     Rigidbody body;
     float settled;
+    int bounces;
+    float nextBounce;
 
     public void Configure(float gravity, bool horizon)
     {
@@ -20,6 +22,20 @@ public class DeathDebris : MonoBehaviour
     void Awake()
     {
         TryGetComponent(out body);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (bounces >= 3 || Time.unscaledTime < nextBounce) return;
+
+        float force = collision.relativeVelocity.magnitude;
+        if (force < 1.2f) return;
+
+        nextBounce = Time.unscaledTime + 0.12f;
+        ++bounces;
+
+        var cue = levelHorizon ? SfxEvent.BodyBounce : SfxEvent.GunClatter;
+        AudioManager.PlayEventAt(cue, collision.GetContact(0).point, Mathf.Clamp01(force / 7f));
     }
 
     void FixedUpdate()

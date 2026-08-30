@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Pokemon
   Prefab: {fileID: 6873060547752933545, guid: b1db4d7366718294f9290c80976eac38, type: 3}
+  BulletSfx: {fileID: 0}
+  ReportCue: 
+  ReportFollowsBullet: 0
   Category: 0
-  Rarity: 0.01
+  Rarity: 3
