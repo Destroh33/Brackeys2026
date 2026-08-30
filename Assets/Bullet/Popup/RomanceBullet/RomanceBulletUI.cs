@@ -22,7 +22,7 @@ public class RomanceBulletUI : MonoBehaviour
     void Start()
     {
         muzzle = GameManager.Instance.Player.Gun.muzzle;
-
+        MusicManager.Push(this, Sfx.MusicRomance);
         Show(firstDisplay, true);
         Show(secondDisplay, false);
         Show(choiceZeroDisplay, false);

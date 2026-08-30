@@ -61,4 +61,5 @@ public static class Sfx
     public const string MusicFF = "music_ff";
     public const string MusicAphorism = "music_aphorism";
     public const string MusicKahoot = "music_kahoot";
+    public const string MusicRomance = "music_romance";
 }
