@@ -69,6 +69,17 @@ public static class SfxEvent
         L(Sfx.GasBurst, 0f, 1f, Light),
     };
 
+    public static readonly SfxLayer[] FlareIgnite =
+    {
+        L(Sfx.GasBurst, 0f, 0.7f, Light),
+        L(Sfx.ImpactDebris, 0.06f, 0.45f, Wide),
+    };
+
+    public static readonly SfxLayer[] FlareStrike =
+    {
+        L(Sfx.NukeWhistle, 0f, 0.55f, Wide),
+    };
+
     public static readonly SfxLayer[] NukeLaunch =
     {
         L(Sfx.NukeLaunch, 0f, 1f, None),
@@ -108,6 +119,7 @@ public static class SfxEvent
             "LaserBulletData" => Sfx.FireLaser,
             "PoisonGasBulletData" => Sfx.GasLaunch,
             "NukeBulletData" => Sfx.NukeLaunch,
+            "FlareBulletData" => Sfx.GasLaunch,
             "WaterGunBulletData" => "",
             "BangGunBulletData" => "",
             _ => Sfx.Fire9mm,

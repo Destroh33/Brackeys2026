@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d883fe8360a6d41a8450bacc6068b6, type: 3}
+  m_Name: SequencePopupBullet
+  m_EditorClassIdentifier: Assembly-CSharp::BulletData
+  Name: Sequence Prompt
+  Prefab: {fileID: 3112002896445355053, guid: e40b8d6a2f9c47138ae5c1b0d3f26a7e, type: 3}
+  BulletSfx: {fileID: 0}
+  ReportCue: 
+  ReportFollowsBullet: 0
+  Category: 0
+  Rarity: 3
