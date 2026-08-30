@@ -4,6 +4,7 @@ public class AphorismBullet : MonoBehaviour
 {
     [SerializeField] private BulletVoiceLine[] aphorisms;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private AphorismUI aphorismUI;
 
     public void PlayRandomAphorism()
     {
@@ -25,7 +26,7 @@ public class AphorismBullet : MonoBehaviour
 
             MusicManager.PlayAphorism(voiceHandle);
         }
-
-        Debug.Log(aphorism.voiceText);
+        AphorismUI ui = Instantiate(aphorismUI);
+        ui.Show(aphorism.voiceText);
     }
 }
