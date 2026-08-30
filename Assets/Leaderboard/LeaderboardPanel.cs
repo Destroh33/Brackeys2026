@@ -72,6 +72,7 @@ public class LeaderboardPanel : MonoBehaviour
             rows[i].Bind(i + 1, entries[i], false);
         }
 
+        if (content) LayoutRebuilder.ForceRebuildLayoutImmediate(content);
         if (scrollRect) scrollRect.verticalNormalizedPosition = 1f;
     }
 
