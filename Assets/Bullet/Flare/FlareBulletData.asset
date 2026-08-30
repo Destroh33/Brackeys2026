@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   Name: Flare
   Prefab: {fileID: 6612394720118200001, guid: d48549e6193045f883b867d420c972e6, type: 3}
-  Category: 1
-  Rarity: 4
+  BulletSfx: {fileID: 0}
+  ReportCue: 
+  ReportFollowsBullet: 0
+  Category: 2
+  Rarity: 1

@@ -225,14 +225,14 @@ MonoBehaviour:
   smoke: {fileID: 6612394720118200005}
   strikePrefab: {fileID: 5510482930177400001, guid: 16f5305164534061b54a8e8f7297eeab, type: 3}
   warningPrefab: {fileID: 4720168334192500001, guid: 82dbae2d87464f1286b51e164fb618fc, type: 3}
-  speed: 20
-  armDelay: 1.6
-  strikeCount: 12
-  strikeInterval: 0.4
-  strikeRadius: 8
+  speed: 8
+  armDelay: 0.8
+  strikeCount: 18
+  strikeInterval: 0.15
+  strikeRadius: 2
   maxTiltDegrees: 22
   spawnDistance: 50
-  warningLead: 0.55
+  warningLead: 0.5
   burnOut: 1.5
   flickerSpeed: 11
   flickerAmount: 0.3
